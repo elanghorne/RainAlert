@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8072B1442E2FE90000DEF441 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072B1412E2FE90000DEF441 /* ContentView.swift */; };
+		8072B1442E2FE90000DEF441 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072B1412E2FE90000DEF441 /* HomeView.swift */; };
 		8072B1452E2FE90000DEF441 /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072B13F2E2FE90000DEF441 /* AppColor.swift */; };
 		8072B1462E2FE90000DEF441 /* RainAlertApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072B1422E2FE90000DEF441 /* RainAlertApp.swift */; };
 		8072B1472E2FE90000DEF441 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8072B1402E2FE90000DEF441 /* Assets.xcassets */; };
@@ -18,7 +18,7 @@
 		8072B12A2E2FD24A00DEF441 /* RainAlert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainAlert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8072B13F2E2FE90000DEF441 /* AppColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
 		8072B1402E2FE90000DEF441 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		8072B1412E2FE90000DEF441 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		8072B1412E2FE90000DEF441 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		8072B1422E2FE90000DEF441 /* RainAlertApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RainAlertApp.swift; sourceTree = "<group>"; };
 		8072B1492E2FF84E00DEF441 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -53,7 +53,7 @@
 		8072B13E2E2FE90000DEF441 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				8072B1412E2FE90000DEF441 /* ContentView.swift */,
+				8072B1412E2FE90000DEF441 /* HomeView.swift */,
 				8072B13F2E2FE90000DEF441 /* AppColor.swift */,
 			);
 			path = Views;
@@ -151,7 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8072B14A2E2FF84E00DEF441 /* SettingsModel.swift in Sources */,
-				8072B1442E2FE90000DEF441 /* ContentView.swift in Sources */,
+				8072B1442E2FE90000DEF441 /* HomeView.swift in Sources */,
 				8072B1452E2FE90000DEF441 /* AppColor.swift in Sources */,
 				8072B1462E2FE90000DEF441 /* RainAlertApp.swift in Sources */,
 			);
