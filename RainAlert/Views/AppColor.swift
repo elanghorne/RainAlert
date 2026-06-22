@@ -1,6 +1,6 @@
 //
 //  AppColor.swift
-//  GoTime
+//  RainAlert
 //
 //  Created by Eric Langhorne on 7/22/25.
 //

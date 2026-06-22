@@ -9,17 +9,17 @@
 /* Begin PBXBuildFile section */
 		8072B1442E2FE90000DEF441 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072B1412E2FE90000DEF441 /* ContentView.swift */; };
 		8072B1452E2FE90000DEF441 /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072B13F2E2FE90000DEF441 /* AppColor.swift */; };
-		8072B1462E2FE90000DEF441 /* GoTimeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072B1422E2FE90000DEF441 /* GoTimeApp.swift */; };
+		8072B1462E2FE90000DEF441 /* RainAlertApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072B1422E2FE90000DEF441 /* RainAlertApp.swift */; };
 		8072B1472E2FE90000DEF441 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8072B1402E2FE90000DEF441 /* Assets.xcassets */; };
 		8072B14A2E2FF84E00DEF441 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072B1492E2FF84E00DEF441 /* SettingsModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8072B12A2E2FD24A00DEF441 /* GoTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8072B12A2E2FD24A00DEF441 /* RainAlert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainAlert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8072B13F2E2FE90000DEF441 /* AppColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
 		8072B1402E2FE90000DEF441 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8072B1412E2FE90000DEF441 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		8072B1422E2FE90000DEF441 /* GoTimeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoTimeApp.swift; sourceTree = "<group>"; };
+		8072B1422E2FE90000DEF441 /* RainAlertApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RainAlertApp.swift; sourceTree = "<group>"; };
 		8072B1492E2FF84E00DEF441 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -37,7 +37,7 @@
 		8072B1212E2FD24A00DEF441 = {
 			isa = PBXGroup;
 			children = (
-				8072B1432E2FE90000DEF441 /* GoTime */,
+				8072B1432E2FE90000DEF441 /* RainAlert */,
 				8072B12B2E2FD24A00DEF441 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -45,7 +45,7 @@
 		8072B12B2E2FD24A00DEF441 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8072B12A2E2FD24A00DEF441 /* GoTime.app */,
+				8072B12A2E2FD24A00DEF441 /* RainAlert.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -59,15 +59,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		8072B1432E2FE90000DEF441 /* GoTime */ = {
+		8072B1432E2FE90000DEF441 /* RainAlert */ = {
 			isa = PBXGroup;
 			children = (
 				8072B1402E2FE90000DEF441 /* Assets.xcassets */,
-				8072B1422E2FE90000DEF441 /* GoTimeApp.swift */,
+				8072B1422E2FE90000DEF441 /* RainAlertApp.swift */,
 				8072B1482E2FE90900DEF441 /* Models */,
 				8072B13E2E2FE90000DEF441 /* Views */,
 			);
-			path = GoTime;
+			path = RainAlert;
 			sourceTree = "<group>";
 		};
 		8072B1482E2FE90900DEF441 /* Models */ = {
@@ -81,9 +81,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8072B1292E2FD24A00DEF441 /* GoTime */ = {
+		8072B1292E2FD24A00DEF441 /* RainAlert */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8072B1352E2FD24C00DEF441 /* Build configuration list for PBXNativeTarget "GoTime" */;
+			buildConfigurationList = 8072B1352E2FD24C00DEF441 /* Build configuration list for PBXNativeTarget "RainAlert" */;
 			buildPhases = (
 				8072B1262E2FD24A00DEF441 /* Sources */,
 				8072B1272E2FD24A00DEF441 /* Frameworks */,
@@ -93,11 +93,11 @@
 			);
 			dependencies = (
 			);
-			name = GoTime;
+			name = RainAlert;
 			packageProductDependencies = (
 			);
 			productName = GoTime;
-			productReference = 8072B12A2E2FD24A00DEF441 /* GoTime.app */;
+			productReference = 8072B12A2E2FD24A00DEF441 /* RainAlert.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -115,7 +115,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8072B1252E2FD24A00DEF441 /* Build configuration list for PBXProject "GoTime" */;
+			buildConfigurationList = 8072B1252E2FD24A00DEF441 /* Build configuration list for PBXProject "RainAlert" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -129,7 +129,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8072B1292E2FD24A00DEF441 /* GoTime */,
+				8072B1292E2FD24A00DEF441 /* RainAlert */,
 			);
 		};
 /* End PBXProject section */
@@ -153,7 +153,7 @@
 				8072B14A2E2FF84E00DEF441 /* SettingsModel.swift in Sources */,
 				8072B1442E2FE90000DEF441 /* ContentView.swift in Sources */,
 				8072B1452E2FE90000DEF441 /* AppColor.swift in Sources */,
-				8072B1462E2FE90000DEF441 /* GoTimeApp.swift in Sources */,
+				8072B1462E2FE90000DEF441 /* RainAlertApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,7 +340,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8072B1252E2FD24A00DEF441 /* Build configuration list for PBXProject "GoTime" */ = {
+		8072B1252E2FD24A00DEF441 /* Build configuration list for PBXProject "RainAlert" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8072B1332E2FD24C00DEF441 /* Debug */,
@@ -349,7 +349,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8072B1352E2FD24C00DEF441 /* Build configuration list for PBXNativeTarget "GoTime" */ = {
+		8072B1352E2FD24C00DEF441 /* Build configuration list for PBXNativeTarget "RainAlert" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8072B1362E2FD24C00DEF441 /* Debug */,
