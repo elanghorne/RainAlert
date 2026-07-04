@@ -36,10 +36,11 @@ struct HomeView: View {
     @StateObject private var settingsModel = SettingsModel()
 
     var body: some View {
-        ZStack {
-            AppColor.background
-                .ignoresSafeArea() // extends full screen
-            NavigationStack {
+        NavigationStack {
+            ZStack {
+                AppColor.background
+                    .ignoresSafeArea() // extends full screen
+
                 
                 VStack {
                     Text("RainAlert")
@@ -49,25 +50,26 @@ struct HomeView: View {
                         .padding(.bottom, 10)
                     Spacer()
                     Toggle(isOn: $alertsOn) {
-                        Text("Notifications On")
+                        Text(alertsOn ? "Notifications On" : "Notifications Off")
+                            .foregroundColor(.black)
                     }
                     Spacer()
                     NavigationLink {
-                        // ScheduleView()
+                        ScheduleView()
                     } label: {
                         CardView(title: "Notification Schedule", icon: "calendar", color: alertsOn)
                     }
                     
                     Spacer()
                     NavigationLink {
-                        // ForecastView()
+                        ForecastView()
                     } label: {
                         CardView(title: "Daily Forecast", icon: "cloud.sun.rain.fill", color: alertsOn)
                     }
                     
                     Spacer()
                     NavigationLink {
-                        // LocationView()
+                        LocationView()
                     } label: {
                         CardView(title: "Significant Locations", icon: "mappin.and.ellipse", color: alertsOn)
                     }
