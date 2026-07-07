@@ -22,6 +22,19 @@ struct WindowRow: View {
     var body: some View {
         HStack {
             Text("Window \(index + 1)")
+            DatePicker(
+                "Start",
+                selection: Binding<Date>,
+                displayedComponents: .hourAndMinute
+            )
+            .labelsHidden()
+            
+            DatePicker(
+                "End",
+                selection: Binding<Date>,
+                displayedComponents: .hourAndMinute
+            )
+            .labelsHidden()
             
         }
     }
