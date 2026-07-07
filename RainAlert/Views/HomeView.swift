@@ -27,6 +27,7 @@ struct CardView: View {
         .padding()
         .padding()
         .background(RoundedRectangle(cornerRadius: 12).fill(color ? AppColor.primary : AppColor.secondary))
+        .shadow(color: (color ? AppColor.primary : AppColor.secondary).opacity(0.6), radius: 20)
 
     }
 }

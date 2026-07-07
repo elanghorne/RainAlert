@@ -10,9 +10,9 @@ import SwiftUI
 
 struct Window: Identifiable {
     let id = UUID()
-    var startTime: Date?
-    var endTime: Date?
-    var windowConfirmed = false
+    var startTime = Calendar.current.startOfDay(for: Date())
+    var endTime = Calendar.current.startOfDay(for: Date())
+
 }
 
 struct WindowRow: View {
@@ -21,17 +21,19 @@ struct WindowRow: View {
     
     var body: some View {
         HStack {
-            Text("Window \(index + 1)")
+            Text("\(index + 1) | ")
+            Text("Start")
             DatePicker(
                 "Start",
-                selection: Binding<Date>,
+                selection: $window.startTime,
                 displayedComponents: .hourAndMinute
             )
             .labelsHidden()
             
+            Text("End")
             DatePicker(
                 "End",
-                selection: Binding<Date>,
+                selection: $window.endTime,
                 displayedComponents: .hourAndMinute
             )
             .labelsHidden()
@@ -42,6 +44,7 @@ struct WindowRow: View {
 
 struct ScheduleView: View {
     @State var windows: [Window] = []
+    @State var windowsConfirmed: Bool = false
     
     var body: some View {
         ZStack {
@@ -50,33 +53,66 @@ struct ScheduleView: View {
                 Text("Customize Notification Schedule")
                     .font(.system(size: 25, weight: .semibold))
                     .foregroundColor(.black)
-            
+                
+                
                 List {
                     ForEach($windows) { $window in
                         WindowRow(window: $window, index: windows.firstIndex(where: { element in element.id == window.id})!)
                     }
+                    .onDelete { indexSet in windows.remove(atOffsets: indexSet) }
                 }
                 .scrollContentBackground(.hidden)
-                Button(action: {
-                    // append Window to windows
-                    windows.append(Window())
-                }) {
-                    // label for button
-                    HStack {
-                        Image(systemName: "plus")
-                            .foregroundColor(.white)
-                        Text("Add Window")
-                            .foregroundColor(.white)
-                        
-                    }
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 10).fill(AppColor.primary))
-                }
+                .background(AppColor.background)
                 
+                if(windows.count < 5){
+                    Button(action: {
+                        // append Window to windows
+                        windows.append(Window())
+                    }) {
+                        // label for button
+                        HStack {
+                            Image(systemName: "plus")
+                                .foregroundColor(.white)
+                            Text("Add Window")
+                                .foregroundColor(.white)
+                        }
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 10).fill(AppColor.primary))
+                    }
+                }
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    windowsConfirmed = true
+                    // trying to flash the button green with a check before returning to HomeView upon confirmation
+                }) {
+                    if(!windowsConfirmed){
+                        HStack {
+
+                            Text("Confirm")
+                                .foregroundColor(.white)
+                            
+                        }
+                        .padding()
+                    } else {
+                        HStack {
+                            Image(systemName: "checkmark")
+                                .foregroundColor(.white)
+                        
+                        }
+                        .padding()
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(windowsConfirmed ? .green : .red)
+
             }
         }
     }
 }
+
 
 #Preview {
     ScheduleView()
