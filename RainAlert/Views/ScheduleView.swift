@@ -91,7 +91,7 @@ struct ScheduleView: View {
                     if(!windowsConfirmed){
                         HStack {
 
-                            Text("Confirm")
+                            Text("Publish")
                                 .foregroundColor(.white)
                             
                         }
