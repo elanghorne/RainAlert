@@ -46,6 +46,7 @@ struct ScheduleView: View {
     @State var windows: [Window] = []
     @State var windowsConfirmed: Bool = false
     
+    
     var body: some View {
         ZStack {
             AppColor.background.ignoresSafeArea()
@@ -78,6 +79,7 @@ struct ScheduleView: View {
                         }
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 10).fill(AppColor.primary))
+                        .shadow(color: AppColor.primary.opacity(0.6), radius: 20)
                     }
                 }
             }

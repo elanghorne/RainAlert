@@ -54,7 +54,6 @@ struct LocationView: View {
                         presentAddLocationSheet = true
                         
                     }) {
-                        // label for button
                         HStack {
                             Image(systemName: "plus")
                                 .foregroundColor(.white)
@@ -63,6 +62,7 @@ struct LocationView: View {
                         }
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 10).fill(AppColor.primary))
+                        .shadow(color: AppColor.primary.opacity(0.6), radius: 20)
                     }
                 }
             }
