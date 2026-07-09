@@ -6,18 +6,74 @@
 //
 
 import SwiftUI
+import MapKit
 
-struct LocationView: View {
+struct Location: Identifiable {
+    let id = UUID()
+    var name: String?
+    var latitude: Double
+    var longitude: Double
+    
+}
+
+struct LocationRow: View {
+    @Binding var location: Location
+    var index: Int
     var body: some View {
-        ZStack {
-            AppColor.background.ignoresSafeArea()
-            
-            Text("Select Significant Locations")
-                .font(.system(size: 25, weight: .semibold))
-                .foregroundColor(.black)
+        HStack {
+            Text(location.name ?? "Location \(index + 1)")
         }
     }
 }
+
+struct LocationView: View {
+    @State var locations: [Location] = []
+    @State var locationsConfirmed: Bool = false
+    @State var presentAddLocationSheet = false
+    
+    var body: some View {
+        ZStack {
+            AppColor.background.ignoresSafeArea()
+            VStack {
+                Text("Select Significant Locations")
+                    .font(.system(size: 25, weight: .semibold))
+                    .foregroundColor(.black)
+                
+                List {
+                    ForEach($locations) { $location in
+                        LocationRow(location: $location, index: locations.firstIndex(where: { element in element.id == location.id})!)
+                    }
+                    .onDelete { indexSet in locations.remove(atOffsets: indexSet) }
+                }
+                .scrollContentBackground(.hidden)
+                .background(AppColor.background)
+                
+                if(locations.count < 3){
+                    Button(action: {
+                        // bring up sheet to search for an address
+                        presentAddLocationSheet = true
+                        
+                    }) {
+                        // label for button
+                        HStack {
+                            Image(systemName: "plus")
+                                .foregroundColor(.white)
+                            Text("Add Location")
+                                .foregroundColor(.white)
+                        }
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 10).fill(AppColor.primary))
+                    }
+                }
+            }
+        }
+        .sheet(isPresented: $presentAddLocationSheet) {
+            AddLocationSheet()
+        }
+    }
+
+}
+
 
 #Preview {
     LocationView()

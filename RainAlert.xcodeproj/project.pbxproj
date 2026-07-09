@@ -15,6 +15,7 @@
 		80F09E0C2FF8943A006D485E /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F09E0B2FF8943A006D485E /* ScheduleView.swift */; };
 		80F09E0E2FF89452006D485E /* ForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F09E0D2FF89452006D485E /* ForecastView.swift */; };
 		80F09E102FF8945D006D485E /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F09E0F2FF8945D006D485E /* LocationView.swift */; };
+		80F09E1230004E19006D485E /* AddLocationSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F09E1130004E19006D485E /* AddLocationSheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		80F09E0B2FF8943A006D485E /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		80F09E0D2FF89452006D485E /* ForecastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastView.swift; sourceTree = "<group>"; };
 		80F09E0F2FF8945D006D485E /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
+		80F09E1130004E19006D485E /* AddLocationSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				8072B13F2E2FE90000DEF441 /* AppColor.swift */,
 				80F09E0D2FF89452006D485E /* ForecastView.swift */,
 				80F09E0F2FF8945D006D485E /* LocationView.swift */,
+				80F09E1130004E19006D485E /* AddLocationSheet.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -163,6 +166,7 @@
 				8072B14A2E2FF84E00DEF441 /* SettingsModel.swift in Sources */,
 				8072B1442E2FE90000DEF441 /* HomeView.swift in Sources */,
 				8072B1452E2FE90000DEF441 /* AppColor.swift in Sources */,
+				80F09E1230004E19006D485E /* AddLocationSheet.swift in Sources */,
 				80F09E102FF8945D006D485E /* LocationView.swift in Sources */,
 				8072B1462E2FE90000DEF441 /* RainAlertApp.swift in Sources */,
 				80F09E0E2FF89452006D485E /* ForecastView.swift in Sources */,
