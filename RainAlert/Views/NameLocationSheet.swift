@@ -1,0 +1,18 @@
+//
+//  NameLocationSheet.swift
+//  RainAlert
+//
+//  Created by Eric Langhorne on 7/14/26.
+//
+
+import SwiftUI
+
+struct NameLocationSheet: View {
+    var body: some View {
+        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    }
+}
+
+#Preview {
+    NameLocationSheet()
+}

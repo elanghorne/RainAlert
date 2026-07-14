@@ -117,6 +117,7 @@ struct SearchLocationView: View {
 // MARK: MapView Live Selection
 struct MapViewSelection: View {
     @EnvironmentObject var locationManager: LocationManager
+    @State var isNameLocationSheetPresented = false
     
     var body: some View {
         ZStack {
@@ -148,7 +149,7 @@ struct MapViewSelection: View {
                     .padding(.vertical, 10)
                     
                     Button {
-                        
+                        isNameLocationSheetPresented = true
                     } label: {
                         Text("Confirm Location")
                             .fontWeight(.semibold)
@@ -164,6 +165,9 @@ struct MapViewSelection: View {
                                     .padding(.trailing)
                             }
                             .foregroundColor(.white)
+                    }
+                    .sheet(isPresented: $isNameLocationSheetPresented) {
+                        NameLocationSheet()
                     }
                 }
                 .padding()

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		80417A9C3006C157008996AA /* NameLocationSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80417A9B3006C157008996AA /* NameLocationSheet.swift */; };
+		80417A9E3006C619008996AA /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80417A9D3006C619008996AA /* LocationModel.swift */; };
+		80417AA03006C935008996AA /* ForecastModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80417A9F3006C92C008996AA /* ForecastModel.swift */; };
+		80417AA23006C95E008996AA /* ScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80417AA13006C957008996AA /* ScheduleModel.swift */; };
 		8072B1442E2FE90000DEF441 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072B1412E2FE90000DEF441 /* HomeView.swift */; };
 		8072B1452E2FE90000DEF441 /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072B13F2E2FE90000DEF441 /* AppColor.swift */; };
 		8072B1462E2FE90000DEF441 /* RainAlertApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072B1422E2FE90000DEF441 /* RainAlertApp.swift */; };
@@ -19,6 +23,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		80417A9B3006C157008996AA /* NameLocationSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameLocationSheet.swift; sourceTree = "<group>"; };
+		80417A9D3006C619008996AA /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
+		80417A9F3006C92C008996AA /* ForecastModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastModel.swift; sourceTree = "<group>"; };
+		80417AA13006C957008996AA /* ScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleModel.swift; sourceTree = "<group>"; };
 		8072B12A2E2FD24A00DEF441 /* RainAlert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainAlert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8072B13F2E2FE90000DEF441 /* AppColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
 		8072B1402E2FE90000DEF441 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -75,6 +83,7 @@
 				80F09E0D2FF89452006D485E /* ForecastView.swift */,
 				80F09E0F2FF8945D006D485E /* LocationView.swift */,
 				80F09E1130004E19006D485E /* SearchLocationView.swift */,
+				80417A9B3006C157008996AA /* NameLocationSheet.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -95,6 +104,9 @@
 			isa = PBXGroup;
 			children = (
 				8072B1492E2FF84E00DEF441 /* SettingsModel.swift */,
+				80417AA13006C957008996AA /* ScheduleModel.swift */,
+				80417A9D3006C619008996AA /* LocationModel.swift */,
+				80417A9F3006C92C008996AA /* ForecastModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -132,7 +144,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1630;
-				LastUpgradeCheck = 1630;
+				LastUpgradeCheck = 2640;
 				TargetAttributes = {
 					8072B1292E2FD24A00DEF441 = {
 						CreatedOnToolsVersion = 16.3;
@@ -175,6 +187,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				80F09E0C2FF8943A006D485E /* ScheduleView.swift in Sources */,
+				80417A9C3006C157008996AA /* NameLocationSheet.swift in Sources */,
+				80417AA23006C95E008996AA /* ScheduleModel.swift in Sources */,
 				8072B14A2E2FF84E00DEF441 /* SettingsModel.swift in Sources */,
 				8072B1442E2FE90000DEF441 /* HomeView.swift in Sources */,
 				8072B1452E2FE90000DEF441 /* AppColor.swift in Sources */,
@@ -182,6 +196,8 @@
 				80F09E102FF8945D006D485E /* LocationView.swift in Sources */,
 				8072B1462E2FE90000DEF441 /* RainAlertApp.swift in Sources */,
 				80F09E0E2FF89452006D485E /* ForecastView.swift in Sources */,
+				80417A9E3006C619008996AA /* LocationModel.swift in Sources */,
+				80417AA03006C935008996AA /* ForecastModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +263,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -304,6 +321,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};

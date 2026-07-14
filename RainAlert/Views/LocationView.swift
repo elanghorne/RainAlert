@@ -8,16 +8,16 @@
 import SwiftUI
 import MapKit
 
-struct Location: Identifiable {
-    let id = UUID()
-    var name: String?
-    var latitude: Double
-    var longitude: Double
-    
-}
+//struct Location: Identifiable {
+//    let id = UUID()
+//    var name: String?
+//    var latitude: Double
+//    var longitude: Double
+//    
+//}
 
 struct LocationRow: View {
-    @Binding var location: Location
+    @Binding var location: LocationData
     var index: Int
     var body: some View {
         HStack {
@@ -27,9 +27,10 @@ struct LocationRow: View {
 }
 
 struct LocationView: View {
-    @State var locations: [Location] = []
+    @State var locations: [LocationData] = []
     @State var locationsConfirmed: Bool = false
     @State var presentAddLocationSheet = false
+    @State var locationModel: LocationModel
     
     var body: some View {
         ZStack {
@@ -89,5 +90,6 @@ struct LocationView: View {
 
 
 #Preview {
-    LocationView()
+    var locationModel = LocationModel()
+    LocationView(locationModel: locationModel)
 }

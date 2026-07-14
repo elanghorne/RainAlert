@@ -35,6 +35,7 @@ struct CardView: View {
 struct HomeView: View {
     @State private var alertsOn = false
     @StateObject private var settingsModel = SettingsModel()
+    @StateObject private var locationModel = LocationModel()
 
     var body: some View {
         NavigationStack {
@@ -70,7 +71,7 @@ struct HomeView: View {
                     
                     Spacer()
                     NavigationLink {
-                        LocationView()
+                        LocationView(locationModel: locationModel)
                     } label: {
                         CardView(title: "Significant Locations", icon: "mappin.and.ellipse", color: alertsOn)
                     }
