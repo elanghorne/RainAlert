@@ -25,6 +25,7 @@ struct ForecastView: View {
                 Spacer()
                 HStack {
                     Text("Forecast Time")
+                        .font(.system(size: 25, weight: .semibold))
                         .foregroundColor(.black)
                     
                     DatePicker(
@@ -36,6 +37,7 @@ struct ForecastView: View {
                 }
                 Toggle(isOn: $currentLocationIncluded) {
                     Text("Include Current Location")
+                        .font(.system(size: 25, weight: .semibold))
                         .foregroundColor(.black)
                 }
                 .padding(.horizontal)
@@ -46,6 +48,7 @@ struct ForecastView: View {
                 
                 Toggle(isOn: $currentLocationIncluded) {
                     Text("Include Significant Locations")
+                        .font(.system(size: 25, weight: .semibold))
                         .foregroundColor(.black)
                 }
                 .padding(.horizontal)

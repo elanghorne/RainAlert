@@ -75,6 +75,7 @@ struct ScheduleView: View {
                             Image(systemName: "plus")
                                 .foregroundColor(.white)
                             Text("Add Window")
+                                .font(.system(size: 25, weight: .semibold))
                                 .foregroundColor(.white)
                         }
                         .padding()
@@ -94,6 +95,7 @@ struct ScheduleView: View {
                         HStack {
 
                             Text("Publish")
+                                .font(.system(size: 25, weight: .semibold))
                                 .foregroundColor(.white)
                             
                         }

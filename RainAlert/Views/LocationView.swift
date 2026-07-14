@@ -49,15 +49,19 @@ struct LocationView: View {
                 .background(AppColor.background)
                 
                 if(locations.count < 3){
-                    Button(action: {
-                        // bring up sheet to search for an address
-                        presentAddLocationSheet = true
-                        
-                    }) {
+//                    Button(action: {
+//                        // bring up sheet to search for an address
+//                        presentAddLocationSheet = true
+//                        
+//                    }) {
+                    NavigationLink {
+                        SearchLocationView()
+                    } label: {
                         HStack {
                             Image(systemName: "plus")
                                 .foregroundColor(.white)
                             Text("Add Location")
+                                .font(.system(size: 30, weight: .semibold))
                                 .foregroundColor(.white)
                         }
                         .padding()
@@ -67,9 +71,18 @@ struct LocationView: View {
                 }
             }
         }
-        .sheet(isPresented: $presentAddLocationSheet) {
-            AddLocationSheet()
-        }
+//        .sheet(isPresented: $presentAddLocationSheet) {
+//            NavigationStack {
+//                AddLocationSheet()
+//                    .toolbar {
+//                        ToolbarItem(placement: .cancellationAction) {
+//                            Button("Cancel") {
+//                                presentAddLocationSheet = false
+//                            }
+//                        }
+//                    }
+//            }
+//        }
     }
 
 }
