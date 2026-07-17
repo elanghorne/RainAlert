@@ -18,11 +18,26 @@ struct NameLocationSheet: View {
         NavigationStack {
 
             VStack {
-                Text("Name")
-                TextField("Name your location", text: $name)
+                Text("Enter a name for this location")
+                    .foregroundColor(.white)
+                HStack(spacing: 10) {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.gray)
+                    
+                    TextField("Name your location", text: $name)
+                        .foregroundColor(.white)
+                }
+                .padding(.vertical, 12)
+                .padding(.horizontal)
+                .background {
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .strokeBorder(.gray)
+                        .frame(width: 200, height: 100)
+                }
+                .padding(.vertical, 10)
             }
             .onAppear {
-                name = "Location \(locationModel.significantLocations.count + 1)"
+                name = "Location \(locationModel.significantLocations.count)"
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -34,6 +49,7 @@ struct NameLocationSheet: View {
                     }
                 }
             }
+            .presentationDetents([.fraction(0.3)])
         }
     }
 }

@@ -35,7 +35,7 @@ struct LocationView: View {
         ZStack {
             AppColor.background.ignoresSafeArea()
             VStack {
-                Text("Select Significant Locations")
+                Text("Significant Locations")
                     .font(.system(size: 25, weight: .semibold))
                     .foregroundColor(.black)
                 
