@@ -7,14 +7,20 @@
 
 import Foundation
 
-struct LocationData: Identifiable {
+struct SignificantLocationData: Identifiable {
     let id = UUID()
     var latitude: Double
     var longitude: Double
     var name: String?
 }
 
+struct CurrentLocationData {
+    var latitude: Double
+    var longitude: Double
+}
+
 class LocationModel: ObservableObject {
-    @Published var significantLocations: [LocationData] = []
-    @Published var currentLocation: LocationData?
+    
+    @Published var significantLocations: [SignificantLocationData] = []
+    @Published var currentLocation: CurrentLocationData?
 }

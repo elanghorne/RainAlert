@@ -13,6 +13,7 @@ struct SearchLocationView: View {
     @StateObject var locationManager: LocationManager = .init()
     // MARK: Navigation Tag to push view to MapView
     @State var navigationTag: String?
+    var locationModel: LocationModel
     
     var body: some View {
         ZStack {
@@ -45,6 +46,7 @@ struct SearchLocationView: View {
                                     locationManager.mapView.region = .init(center: coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
                                     locationManager.addDraggablePin(coordinate: coordinate)
                                     locationManager.updatePlacemark(location: .init(latitude: coordinate.latitude, longitude: coordinate.longitude))
+                                    locationManager.pickedLocation = .init(latitude: coordinate.latitude, longitude: coordinate.longitude)
                                 }
                                 // MARK: Navigating to MapView
                                 navigationTag = "MAPVIEW"
@@ -96,7 +98,7 @@ struct SearchLocationView: View {
             .frame(maxHeight: .infinity, alignment: .top)
             .background {
                 NavigationLink(tag: "MAPVIEW", selection: $navigationTag) {
-                    MapViewSelection()
+                    MapViewSelection(locationModel: locationModel)
                         .environmentObject(locationManager)
                 } label: {}
                     .labelsHidden()
@@ -109,15 +111,16 @@ struct SearchLocationView: View {
     }
 }
 
-
+var dummyLocationModel = LocationModel()
 #Preview {
-    SearchLocationView()
+    SearchLocationView(locationModel: dummyLocationModel)
 }
 
 // MARK: MapView Live Selection
 struct MapViewSelection: View {
     @EnvironmentObject var locationManager: LocationManager
     @State var isNameLocationSheetPresented = false
+    var locationModel: LocationModel
     
     var body: some View {
         ZStack {
@@ -150,6 +153,9 @@ struct MapViewSelection: View {
                     
                     Button {
                         isNameLocationSheetPresented = true
+                        var significantLocation = SignificantLocationData(latitude: locationManager.pickedLocation?.coordinate.latitude ?? 39.13, longitude: locationManager.pickedLocation?.coordinate.longitude ?? -84.52)
+                        locationModel.significantLocations.append(significantLocation)
+                        
                     } label: {
                         Text("Confirm Location")
                             .fontWeight(.semibold)
@@ -167,8 +173,9 @@ struct MapViewSelection: View {
                             .foregroundColor(.white)
                     }
                     .sheet(isPresented: $isNameLocationSheetPresented) {
-                        NameLocationSheet()
+                        NameLocationSheet(locationModel: locationModel)
                     }
+
                 }
                 .padding()
                 .background {

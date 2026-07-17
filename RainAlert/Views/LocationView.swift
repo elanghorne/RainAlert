@@ -17,7 +17,7 @@ import MapKit
 //}
 
 struct LocationRow: View {
-    @Binding var location: LocationData
+    @Binding var location: SignificantLocationData
     var index: Int
     var body: some View {
         HStack {
@@ -27,7 +27,6 @@ struct LocationRow: View {
 }
 
 struct LocationView: View {
-    @State var locations: [LocationData] = []
     @State var locationsConfirmed: Bool = false
     @State var presentAddLocationSheet = false
     @State var locationModel: LocationModel
@@ -41,22 +40,22 @@ struct LocationView: View {
                     .foregroundColor(.black)
                 
                 List {
-                    ForEach($locations) { $location in
-                        LocationRow(location: $location, index: locations.firstIndex(where: { element in element.id == location.id})!)
+                    ForEach($locationModel.significantLocations) { $location in
+                        LocationRow(location: $location, index: locationModel.significantLocations.firstIndex(where: { element in element.id == location.id})!)
                     }
-                    .onDelete { indexSet in locations.remove(atOffsets: indexSet) }
+                    .onDelete { indexSet in locationModel.significantLocations.remove(atOffsets: indexSet) }
                 }
                 .scrollContentBackground(.hidden)
                 .background(AppColor.background)
                 
-                if(locations.count < 3){
+                if(locationModel.significantLocations.count < 3){
 //                    Button(action: {
 //                        // bring up sheet to search for an address
 //                        presentAddLocationSheet = true
 //                        
 //                    }) {
                     NavigationLink {
-                        SearchLocationView()
+                        SearchLocationView(locationModel: locationModel)
                     } label: {
                         HStack {
                             Image(systemName: "plus")
