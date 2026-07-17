@@ -85,7 +85,7 @@ struct SearchLocationView: View {
                         navigationTag = "MAPVIEW"
                     } label: {
                         Label {
-                            Text("Use Current Location")
+                            Text("Use Current Location")  // doesn't currently get a location
                         } icon: {
                             Image(systemName: "location.north.circle.fill")
                         }
