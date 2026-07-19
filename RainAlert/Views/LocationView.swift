@@ -29,7 +29,7 @@ struct LocationRow: View {
 struct LocationView: View {
     @State var locationsConfirmed: Bool = false
     @State var presentAddLocationSheet = false
-    @StateObject var locationModel: LocationModel
+    @ObservedObject var locationModel: LocationModel
     
     var body: some View {
         ZStack {
@@ -71,20 +71,38 @@ struct LocationView: View {
                 }
             }
         }
-//        .sheet(isPresented: $presentAddLocationSheet) {
-//            NavigationStack {
-//                AddLocationSheet()
-//                    .toolbar {
-//                        ToolbarItem(placement: .cancellationAction) {
-//                            Button("Cancel") {
-//                                presentAddLocationSheet = false
-//                            }
-//                        }
-//                    }
-//            }
-//        }
-    }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                /* ultimately this button should not appear unless changes are made.
+                 then user can confirm and the checkmark appears.
+                 this then triggers the sending of data to the backend.
+                 */
+                Button(action: {
+                    locationsConfirmed = true
 
+                }) {
+                    if(!locationsConfirmed){
+                        HStack {
+                            
+                            Text("Confirm")
+                                .font(.system(size: 25, weight: .semibold))
+                                .foregroundColor(.white)
+                            
+                        }
+                        .padding()
+                    } else {
+                        HStack {
+                            Image(systemName: "checkmark")
+                                .foregroundColor(.white)
+                        }
+                        .padding()
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(locationsConfirmed ? .green : .red)
+            }
+        }
+    }
 }
 
 

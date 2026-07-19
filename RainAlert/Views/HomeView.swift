@@ -36,6 +36,8 @@ struct HomeView: View {
     @State private var alertsOn = false
     @StateObject private var settingsModel = SettingsModel()
     @StateObject private var locationModel = LocationModel()
+    @StateObject private var forecastModel = ForecastModel()
+    @StateObject private var scheduleModel = ScheduleModel()
 
     var body: some View {
         NavigationStack {
@@ -57,14 +59,14 @@ struct HomeView: View {
                     }
                     Spacer()
                     NavigationLink {
-                        ScheduleView()
+                        ScheduleView(scheduleModel: scheduleModel)
                     } label: {
                         CardView(title: "Notification Schedule", icon: "calendar", color: alertsOn)
                     }
                     
                     Spacer()
                     NavigationLink {
-                        ForecastView()
+                        ForecastView(forecastModel: forecastModel)
                     } label: {
                         CardView(title: "Daily Forecast", icon: "cloud.sun.rain.fill", color: alertsOn)
                     }

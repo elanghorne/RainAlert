@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ForecastView: View {
     @State var settingsConfirmed = false
-    @State var forecastTime = Calendar.current.startOfDay(for: Date())
-    @State var currentLocationIncluded = false
+//    @State var forecastTime = Calendar.current.startOfDay(for: Date())
+    @ObservedObject var forecastModel: ForecastModel
     
     var body: some View {
         ZStack {
@@ -30,12 +30,12 @@ struct ForecastView: View {
                     
                     DatePicker(
                         "Time",
-                        selection: $forecastTime,
+                        selection: $forecastModel.forecastTime,
                         displayedComponents: .hourAndMinute
                     )
                     .labelsHidden()
                 }
-                Toggle(isOn: $currentLocationIncluded) {
+                Toggle(isOn: $forecastModel.includeCurrentLocation) {
                     Text("Include Current Location")
                         .font(.system(size: 25, weight: .semibold))
                         .foregroundColor(.black)
@@ -46,7 +46,7 @@ struct ForecastView: View {
                 .padding(.horizontal)
                 .padding(.horizontal)
                 
-                Toggle(isOn: $currentLocationIncluded) {
+                Toggle(isOn: $forecastModel.includeSignificantLocations) {
                     Text("Include Significant Locations")
                         .font(.system(size: 25, weight: .semibold))
                         .foregroundColor(.black)
@@ -93,6 +93,7 @@ struct ForecastView: View {
     }
 }
 
+var previewModel = ForecastModel()
 #Preview {
-    ForecastView()
+    ForecastView(forecastModel: previewModel)
 }

@@ -32,7 +32,7 @@ struct NameLocationSheet: View {
                 .background {
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
                         .strokeBorder(.gray)
-                        .frame(width: 200, height: 100)
+                        .frame(width: 425, height: 50)
                 }
                 .padding(.vertical, 10)
             }

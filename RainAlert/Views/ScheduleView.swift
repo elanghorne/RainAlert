@@ -8,15 +8,16 @@
 import SwiftUI
 //import Foundation
 
-struct Window: Identifiable {
-    let id = UUID()
-    var startTime = Calendar.current.startOfDay(for: Date())
-    var endTime = Calendar.current.startOfDay(for: Date())
-
-}
+//struct Window: Identifiable {
+//    let id = UUID()
+//    var startTime = Calendar.current.startOfDay(for: Date())
+//    var endTime = Calendar.current.startOfDay(for: Date())
+//
+//}
 
 struct WindowRow: View {
     @Binding var window: Window
+//    @ObservedObject var scheduleModel: ScheduleModel
     var index: Int
     
     var body: some View {
@@ -43,9 +44,10 @@ struct WindowRow: View {
 }
 
 struct ScheduleView: View {
-    @State var windows: [Window] = []
+//    @State var windows: [Window] = []
     @State var windowsConfirmed: Bool = false
-    
+    @ObservedObject var scheduleModel: ScheduleModel
+
     
     var body: some View {
         ZStack {
@@ -57,18 +59,18 @@ struct ScheduleView: View {
                 
                 
                 List {
-                    ForEach($windows) { $window in
-                        WindowRow(window: $window, index: windows.firstIndex(where: { element in element.id == window.id})!)
+                    ForEach($scheduleModel.windows) { $window in
+                        WindowRow(window: $window, index: scheduleModel.windows.firstIndex(where: { element in element.id == window.id})!)
                     }
-                    .onDelete { indexSet in windows.remove(atOffsets: indexSet) }
+                    .onDelete { indexSet in scheduleModel.windows.remove(atOffsets: indexSet) }
                 }
                 .scrollContentBackground(.hidden)
                 .background(AppColor.background)
                 
-                if(windows.count < 5){
+                if(scheduleModel.windows.count < 5){
                     Button(action: {
                         // append Window to windows
-                        windows.append(Window())
+                        scheduleModel.windows.append(Window())
                     }) {
                         // label for button
                         HStack {
@@ -94,7 +96,7 @@ struct ScheduleView: View {
                     if(!windowsConfirmed){
                         HStack {
 
-                            Text("Publish")
+                            Text("Confirm")
                                 .font(.system(size: 25, weight: .semibold))
                                 .foregroundColor(.white)
                             
@@ -117,7 +119,7 @@ struct ScheduleView: View {
     }
 }
 
-
+var scheduleDummy = ScheduleModel()
 #Preview {
-    ScheduleView()
+    ScheduleView(scheduleModel: scheduleDummy)
 }

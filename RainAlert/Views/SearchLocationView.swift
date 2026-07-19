@@ -25,7 +25,7 @@ struct SearchLocationView: View {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
                     
-                    TextField("Find locations here", text: $locationManager.searchText)
+                    TextField("Find locations here", text: $locationManager.searchText)  // text barely showing up (not black). have to fix coloring on this whole stack probably
                         .foregroundColor(.black)
                 }
                 .padding(.vertical, 12)
