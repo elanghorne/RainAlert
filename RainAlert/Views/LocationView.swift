@@ -29,7 +29,7 @@ struct LocationRow: View {
 struct LocationView: View {
     @State var locationsConfirmed: Bool = false
     @State var presentAddLocationSheet = false
-    @ObservedObject var locationModel: LocationModel
+    @ObservedObject var locationModel: SignificantLocationModel
     
     var body: some View {
         ZStack {
@@ -107,6 +107,6 @@ struct LocationView: View {
 
 
 #Preview {
-    var locationModel = LocationModel()
+    var locationModel = SignificantLocationModel()
     LocationView(locationModel: locationModel)
 }

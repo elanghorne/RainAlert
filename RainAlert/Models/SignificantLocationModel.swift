@@ -14,16 +14,10 @@ struct SignificantLocationData: Identifiable, Codable {
     var name: String?
 }
 
-struct CurrentLocationData: Codable{
-    var currentLatitude: Double
-    var currentLongitude: Double
-}
-
-class LocationModel: ObservableObject {
+class SignificantLocationModel: ObservableObject {
     
     @Published var significantLocations: [SignificantLocationData] = []
-    @Published var currentLocation: CurrentLocationData? // may move this elsewhere and change this class to SignificantLocationModel
-    
+
     init() {
         if let significantLocationData = UserDefaults.standard.data(forKey: "significantLocationData") {
             do {
