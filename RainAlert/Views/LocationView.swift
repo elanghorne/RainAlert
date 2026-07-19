@@ -78,8 +78,8 @@ struct LocationView: View {
                  this then triggers the sending of data to the backend.
                  */
                 Button(action: {
+                    locationModel.save()
                     locationsConfirmed = true
-
                 }) {
                     if(!locationsConfirmed){
                         HStack {

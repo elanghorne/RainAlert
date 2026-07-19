@@ -90,6 +90,7 @@ struct ScheduleView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
+                    scheduleModel.save()
                     windowsConfirmed = true
                     // trying to flash the button green with a check before returning to HomeView upon confirmation
                 }) {

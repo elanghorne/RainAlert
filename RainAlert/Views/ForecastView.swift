@@ -30,12 +30,12 @@ struct ForecastView: View {
                     
                     DatePicker(
                         "Time",
-                        selection: $forecastModel.forecastTime,
+                        selection: $forecastModel.data.forecastTime,
                         displayedComponents: .hourAndMinute
                     )
                     .labelsHidden()
                 }
-                Toggle(isOn: $forecastModel.includeCurrentLocation) {
+                Toggle(isOn: $forecastModel.data.includeCurrentLocation) {
                     Text("Include Current Location")
                         .font(.system(size: 25, weight: .semibold))
                         .foregroundColor(.black)
@@ -46,7 +46,7 @@ struct ForecastView: View {
                 .padding(.horizontal)
                 .padding(.horizontal)
                 
-                Toggle(isOn: $forecastModel.includeSignificantLocations) {
+                Toggle(isOn: $forecastModel.data.includeSignificantLocations) {
                     Text("Include Significant Locations")
                         .font(.system(size: 25, weight: .semibold))
                         .foregroundColor(.black)
@@ -64,13 +64,14 @@ struct ForecastView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
+                        forecastModel.save()
                         settingsConfirmed = true
                         // trying to flash the button green with a check before returning to HomeView upon confirmation
                     }) {
                         if(!settingsConfirmed){
                             HStack {
                                 
-                                Text("Publish")
+                                Text("Confirm")
                                     .foregroundColor(.white)
                                 
                             }
