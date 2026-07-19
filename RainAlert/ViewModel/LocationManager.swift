@@ -11,10 +11,16 @@ import MapKit
 // MARK: Combine Framework to Watch Texfield Change
 import Combine
 
+struct CurrentLocationData: Codable{
+    var currentLatitude: Double
+    var currentLongitude: Double
+}
+
 class LocationManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationManagerDelegate {
     // MARK: Properties
     @Published var mapView: MKMapView = .init()
     @Published var manager: CLLocationManager = .init()
+    @Published var currentLocation: CurrentLocationData?
     
     // MARK: Search Bar Text
     @Published var searchText: String = ""
@@ -80,6 +86,10 @@ class LocationManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocation
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let currentLocation = locations.last else {return}
         self.userLocation = currentLocation
+        self.currentLocation = CurrentLocationData(
+            currentLatitude: currentLocation.coordinate.latitude,
+            currentLongitude: currentLocation.coordinate.longitude
+        )
     }
         
     // MARK: Location Authorization

@@ -10,10 +10,10 @@ import MapKit
 
 
 struct SearchLocationView: View {
-    @StateObject var locationManager: LocationManager = .init()
+    @EnvironmentObject var locationManager: LocationManager
     // MARK: Navigation Tag to push view to MapView
     @State var navigationTag: String?
-    var locationModel: LocationModel
+    var locationModel: SignificantLocationModel
     
     var body: some View {
         ZStack {
@@ -111,16 +111,17 @@ struct SearchLocationView: View {
     }
 }
 
-var dummyLocationModel = LocationModel()
+var dummyLocationModel = SignificantLocationModel()
 #Preview {
     SearchLocationView(locationModel: dummyLocationModel)
+        .environmentObject(LocationManager())
 }
 
 // MARK: MapView Live Selection
 struct MapViewSelection: View {
     @EnvironmentObject var locationManager: LocationManager
     @State var isNameLocationSheetPresented = false
-    var locationModel: LocationModel
+    var locationModel: SignificantLocationModel
     
     var body: some View {
         ZStack {

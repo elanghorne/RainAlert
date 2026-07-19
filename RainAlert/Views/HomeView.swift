@@ -35,9 +35,10 @@ struct CardView: View {
 struct HomeView: View {
     @State private var alertsOn = false
     @StateObject private var settingsModel = SettingsModel()
-    @StateObject private var locationModel = LocationModel()
+    @StateObject private var locationModel = SignificantLocationModel()
     @StateObject private var forecastModel = ForecastModel()
     @StateObject private var scheduleModel = ScheduleModel()
+    @StateObject private var locationManager = LocationManager()
 
     var body: some View {
         NavigationStack {
@@ -84,6 +85,7 @@ struct HomeView: View {
                 .padding(.horizontal)
             }
         }
+        .environmentObject(locationManager)
     }
 }
 

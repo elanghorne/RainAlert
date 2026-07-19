@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct NameLocationSheet: View {
-    var locationModel: LocationModel
+    var locationModel: SignificantLocationModel
     @Environment(\.dismiss) var dismiss
     
     @State var name: String = ""
