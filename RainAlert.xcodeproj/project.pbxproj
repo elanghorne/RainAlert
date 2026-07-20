@@ -12,6 +12,9 @@
 		80417AA03006C935008996AA /* ForecastModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80417A9F3006C92C008996AA /* ForecastModel.swift */; };
 		80417AA23006C95E008996AA /* ScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80417AA13006C957008996AA /* ScheduleModel.swift */; };
 		80417AAC300EC00E008996AA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80417AAB300EC00E008996AA /* AppDelegate.swift */; };
+		80417AAE300EC9C4008996AA /* DataPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80417AAD300EC9BC008996AA /* DataPublisher.swift */; };
+		80417AB0300ECCC2008996AA /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 80417AAF300ECCC2008996AA /* Config.xcconfig */; };
+		80417AB3300ECE0D008996AA /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80417AB2300ECE0D008996AA /* AppConfig.swift */; };
 		8072B1442E2FE90000DEF441 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072B1412E2FE90000DEF441 /* HomeView.swift */; };
 		8072B1452E2FE90000DEF441 /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072B13F2E2FE90000DEF441 /* AppColor.swift */; };
 		8072B1462E2FE90000DEF441 /* RainAlertApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8072B1422E2FE90000DEF441 /* RainAlertApp.swift */; };
@@ -31,6 +34,9 @@
 		80417AA5300D8035008996AA /* RainAlert.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RainAlert.entitlements; sourceTree = "<group>"; };
 		80417AA6300D8097008996AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		80417AAB300EC00E008996AA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		80417AAD300EC9BC008996AA /* DataPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPublisher.swift; sourceTree = "<group>"; };
+		80417AAF300ECCC2008996AA /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		80417AB2300ECE0D008996AA /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		8072B12A2E2FD24A00DEF441 /* RainAlert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainAlert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8072B13F2E2FE90000DEF441 /* AppColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
 		8072B1402E2FE90000DEF441 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -98,8 +104,11 @@
 				80417AA6300D8097008996AA /* Info.plist */,
 				80417AA5300D8035008996AA /* RainAlert.entitlements */,
 				8072B1402E2FE90000DEF441 /* Assets.xcassets */,
+				80417AAF300ECCC2008996AA /* Config.xcconfig */,
 				8072B1422E2FE90000DEF441 /* RainAlertApp.swift */,
+				80417AB2300ECE0D008996AA /* AppConfig.swift */,
 				80417AAB300EC00E008996AA /* AppDelegate.swift */,
+				80417AAD300EC9BC008996AA /* DataPublisher.swift */,
 				8072B1482E2FE90900DEF441 /* Models */,
 				80417A983005729E008996AA /* ViewModel */,
 				8072B13E2E2FE90000DEF441 /* Views */,
@@ -182,6 +191,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80417AB0300ECCC2008996AA /* Config.xcconfig in Resources */,
 				8072B1472E2FE90000DEF441 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -194,6 +204,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				80F09E0C2FF8943A006D485E /* ScheduleView.swift in Sources */,
+				80417AB3300ECE0D008996AA /* AppConfig.swift in Sources */,
 				80417A9C3006C157008996AA /* NameLocationSheet.swift in Sources */,
 				80417AA23006C95E008996AA /* ScheduleModel.swift in Sources */,
 				8072B14A2E2FF84E00DEF441 /* DeviceModel.swift in Sources */,
@@ -203,6 +214,7 @@
 				80F09E102FF8945D006D485E /* LocationView.swift in Sources */,
 				8072B1462E2FE90000DEF441 /* RainAlertApp.swift in Sources */,
 				80F09E0E2FF89452006D485E /* ForecastView.swift in Sources */,
+				80417AAE300EC9C4008996AA /* DataPublisher.swift in Sources */,
 				80417AAC300EC00E008996AA /* AppDelegate.swift in Sources */,
 				80417A9E3006C619008996AA /* SignificantLocationModel.swift in Sources */,
 				80417AA03006C935008996AA /* ForecastModel.swift in Sources */,
@@ -337,6 +349,7 @@
 		};
 		8072B1362E2FD24C00DEF441 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80417AAF300ECCC2008996AA /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -368,6 +381,7 @@
 		};
 		8072B1372E2FD24C00DEF441 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80417AAF300ECCC2008996AA /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
