@@ -33,6 +33,10 @@ class ForecastModel: ObservableObject {
         } catch {
             print("Encoding error: \(error)")
         }
-
     }
+    
+    func postToBackend() {
+        let data = UserDefaults.standard.data(forKey: "forecastData")
+    }
+    
 }

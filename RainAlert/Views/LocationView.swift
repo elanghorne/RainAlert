@@ -79,6 +79,7 @@ struct LocationView: View {
                  */
                 Button(action: {
                     locationModel.save()
+                    locationModel.postToBackend()
                     locationsConfirmed = true
                 }) {
                     if(!locationsConfirmed){

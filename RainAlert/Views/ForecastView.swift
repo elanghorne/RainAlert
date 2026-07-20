@@ -65,6 +65,7 @@ struct ForecastView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         forecastModel.save()
+                        forecastModel.postToBackend()
                         settingsConfirmed = true
                         // trying to flash the button green with a check before returning to HomeView upon confirmation
                     }) {
@@ -80,7 +81,6 @@ struct ForecastView: View {
                             HStack {
                                 Image(systemName: "checkmark")
                                     .foregroundColor(.white)
-                                
                             }
                             .padding()
                         }

@@ -91,6 +91,7 @@ struct ScheduleView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     scheduleModel.save()
+                    scheduleModel.postToBackend()
                     windowsConfirmed = true
                     // trying to flash the button green with a check before returning to HomeView upon confirmation
                 }) {

@@ -16,6 +16,10 @@ struct CurrentLocationData: Codable{
     var currentLongitude: Double
 }
 
+func postToBackend(data: CurrentLocationData) {
+    // might add a DeviceModel for this and device_token. this way there's a model for each db table
+}
+
 class LocationManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationManagerDelegate {
     // MARK: Properties
     @Published var mapView: MKMapView = .init()
@@ -90,6 +94,8 @@ class LocationManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocation
             currentLatitude: currentLocation.coordinate.latitude,
             currentLongitude: currentLocation.coordinate.longitude
         )
+        
+        postToBackend(data: self.currentLocation ?? CurrentLocationData(currentLatitude: 39.13, currentLongitude: -84.52)) // coalescing to UC coords for now
     }
         
     // MARK: Location Authorization
