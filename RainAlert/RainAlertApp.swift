@@ -9,11 +9,15 @@ import SwiftUI
 
 @main
 struct RainAlertApp: App {
+    @StateObject private var deviceModel = DeviceModel()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            HomeView(deviceModel: deviceModel)
+                .onAppear {
+                    appDelegate.deviceModel = deviceModel
+                }
         }
     }
 }

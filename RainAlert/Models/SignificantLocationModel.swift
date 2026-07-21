@@ -13,9 +13,14 @@ struct SignificantLocationData: Identifiable, Codable {
     var name: String?
 }
 
+struct LocationPackage: Codable {
+    var deviceToken: String = ""
+    var data: [SignificantLocationData] = []
+}
+
 class SignificantLocationModel: ObservableObject {
-    
     @Published var significantLocations: [SignificantLocationData] = []
+    let postPath = "/location"
 
     init() {
         if let significantLocationData = UserDefaults.standard.data(forKey: "significantLocationData") {
@@ -39,10 +44,11 @@ class SignificantLocationModel: ObservableObject {
         }
     }
     
-    func format() throws -> Data {
+    func format(withToken token: String) throws -> Data {
+        let package = LocationPackage(deviceToken: token, data: self.significantLocations)
         let encoder = JSONEncoder()
         
-        return try encoder.encode(self.significantLocations)
+        return try encoder.encode(package)
     }
     
 }

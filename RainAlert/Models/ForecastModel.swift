@@ -11,8 +11,14 @@ struct ForecastData: Codable {
     var includeCurrentLocation: Bool = true
     var includeSignificantLocations: Bool = false
 }
+
+struct ForecastPackage: Codable {
+    var deviceToken: String = ""
+    var forecastData: ForecastData = ForecastData()
+}
 class ForecastModel: ObservableObject {
     @Published var data: ForecastData = ForecastData()
+    let postPath = "/forecast"
     
     init() {
         if let forecastData = UserDefaults.standard.data(forKey: "forecastData") {
@@ -35,11 +41,12 @@ class ForecastModel: ObservableObject {
         }
     }
     
-    func format() throws -> Data {
+    func format(withToken token: String) throws -> Data {
+        let package = ForecastPackage(deviceToken: token, forecastData: data)
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
         
-        return try encoder.encode(self.data)
+        return try encoder.encode(package)
     }
     
 }

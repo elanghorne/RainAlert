@@ -10,6 +10,7 @@ import SwiftUI
 struct ForecastView: View {
     @State var settingsConfirmed = false
 //    @State var forecastTime = Calendar.current.startOfDay(for: Date())
+    @ObservedObject var deviceModel: DeviceModel
     @ObservedObject var forecastModel: ForecastModel
     
     var body: some View {
@@ -65,7 +66,20 @@ struct ForecastView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         forecastModel.save()
-//                        forecastModel.format()
+                        do {
+                            let jsonData = try forecastModel.format(withToken: deviceModel.data.deviceToken)
+                            Task {
+                                do {
+                                    let publisher = DataPublisher() // will actually be passing a shared publisher instance to each view
+                                    try await publisher.post(jsonData, to: forecastModel.postPath)
+                                } catch {
+                                    print("POST Error: \(error)")
+                                }
+                            }
+
+                        } catch {
+                            print("Formatting error: \(error)")
+                        }
                         settingsConfirmed = true
                         // trying to flash the button green with a check before returning to HomeView upon confirmation
                     }) {
@@ -96,5 +110,5 @@ struct ForecastView: View {
 
 var previewModel = ForecastModel()
 #Preview {
-    ForecastView(forecastModel: previewModel)
+    ForecastView(deviceModel: dummyDeviceModel, forecastModel: previewModel)
 }

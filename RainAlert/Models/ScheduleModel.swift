@@ -12,6 +12,11 @@ struct Window: Identifiable, Codable{
     var endTime = Calendar.current.startOfDay(for: Date())
 }
 
+struct SchedulePackage: Codable {
+    var deviceToken: String = ""
+    var data: [Window] = []
+}
+
 class ScheduleModel: ObservableObject {
     @Published var windows: [Window] = []
     let postPath = "/schedule"
@@ -37,11 +42,12 @@ class ScheduleModel: ObservableObject {
         }
     }
     
-    func format() throws -> Data {
+    func format(withToken token: String) throws -> Data {
+        let package = SchedulePackage(deviceToken: token, data: self.windows)
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
         
-        return try encoder.encode(self.windows)
+        return try encoder.encode(package)
     }
     
 }

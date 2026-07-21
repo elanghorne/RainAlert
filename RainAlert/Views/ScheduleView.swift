@@ -9,7 +9,6 @@ import Foundation
 
 struct WindowRow: View {
     @Binding var window: Window
-//    @ObservedObject var scheduleModel: ScheduleModel
     var index: Int
     
     var body: some View {
@@ -38,8 +37,8 @@ struct WindowRow: View {
 struct ScheduleView: View {
 //    @State var windows: [Window] = []
     @State var windowsConfirmed: Bool = false
+    @ObservedObject var deviceModel: DeviceModel
     @ObservedObject var scheduleModel: ScheduleModel
-
     
     var body: some View {
         ZStack {
@@ -84,7 +83,7 @@ struct ScheduleView: View {
                 Button(action: {
                     scheduleModel.save()
                     do {
-                        let jsonData = try scheduleModel.format()
+                        let jsonData = try scheduleModel.format(withToken: deviceModel.data.deviceToken)
                         Task {
                             do {
                                 let publisher = DataPublisher() // will actually be passing a shared publisher instance to each view
@@ -128,5 +127,5 @@ struct ScheduleView: View {
 
 var scheduleDummy = ScheduleModel()
 #Preview {
-    ScheduleView(scheduleModel: scheduleDummy)
+    ScheduleView(deviceModel: dummyDeviceModel, scheduleModel: scheduleDummy)
 }

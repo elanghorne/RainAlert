@@ -33,12 +33,17 @@ struct CardView: View {
 }
 
 struct HomeView: View {
-    @State private var alertsOn = false
-    @StateObject private var settingsModel = SettingsModel()
+//    @State private var alertsOn = false
+    @ObservedObject var deviceModel: DeviceModel
     @StateObject private var locationModel = SignificantLocationModel()
     @StateObject private var forecastModel = ForecastModel()
     @StateObject private var scheduleModel = ScheduleModel()
-    @StateObject private var locationManager = LocationManager()
+    @StateObject private var locationManager: LocationManager
+    
+    init(deviceModel: DeviceModel) {
+        self.deviceModel = deviceModel
+        _locationManager = StateObject(wrappedValue: LocationManager(deviceModel: deviceModel))
+    }
 
     var body: some View {
         NavigationStack {
@@ -54,29 +59,29 @@ struct HomeView: View {
                         .foregroundColor(.black)
                         .padding(.bottom, 10)
                     Spacer()
-                    Toggle(isOn: $alertsOn) {
-                        Text(alertsOn ? "Notifications On" : "Notifications Off")
+                    Toggle(isOn: $deviceModel.data.alertsOn) {
+                        Text(deviceModel.data.alertsOn ? "Notifications On" : "Notifications Off")
                             .foregroundColor(.black)
                     }
                     Spacer()
                     NavigationLink {
-                        ScheduleView(scheduleModel: scheduleModel)
+                        ScheduleView(deviceModel: deviceModel, scheduleModel: scheduleModel)
                     } label: {
-                        CardView(title: "Notification Schedule", icon: "calendar", color: alertsOn)
+                        CardView(title: "Notification Schedule", icon: "calendar", color: deviceModel.data.alertsOn)
                     }
                     
                     Spacer()
                     NavigationLink {
-                        ForecastView(forecastModel: forecastModel)
+                        ForecastView(deviceModel: deviceModel, forecastModel: forecastModel)
                     } label: {
-                        CardView(title: "Daily Forecast", icon: "cloud.sun.rain.fill", color: alertsOn)
+                        CardView(title: "Daily Forecast", icon: "cloud.sun.rain.fill", color: deviceModel.data.alertsOn)
                     }
                     
                     Spacer()
                     NavigationLink {
-                        LocationView(locationModel: locationModel)
+                        LocationView(deviceModel: deviceModel, locationModel: locationModel)
                     } label: {
-                        CardView(title: "Significant Locations", icon: "mappin.and.ellipse", color: alertsOn)
+                        CardView(title: "Significant Locations", icon: "mappin.and.ellipse", color: deviceModel.data.alertsOn)
                     }
                     
                     Spacer()
@@ -89,6 +94,7 @@ struct HomeView: View {
     }
 }
 
+var dummyDeviceModel = DeviceModel()
 #Preview {
-    HomeView()
+    HomeView(deviceModel: dummyDeviceModel)
 }

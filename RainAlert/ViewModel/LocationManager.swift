@@ -11,20 +11,11 @@ import MapKit
 // MARK: Combine Framework to Watch Texfield Change
 import Combine
 
-struct CurrentLocationData: Codable{
-    var currentLatitude: Double
-    var currentLongitude: Double
-}
-
-func postToBackend(data: CurrentLocationData) {
-    // might add a DeviceModel for this and device_token. this way there's a model for each db table
-}
-
 class LocationManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationManagerDelegate {
     // MARK: Properties
     @Published var mapView: MKMapView = .init()
     @Published var manager: CLLocationManager = .init()
-    @Published var currentLocation: CurrentLocationData?
+    var deviceModel: DeviceModel
     
     // MARK: Search Bar Text
     @Published var searchText: String = ""
@@ -38,7 +29,8 @@ class LocationManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocation
     @Published var pickedLocation: CLLocation?
     @Published var pickedPlacemark: CLPlacemark?
     
-    override init() {
+    init(deviceModel: DeviceModel) {
+        self.deviceModel = deviceModel
         super.init()
         // MARK: Setting delegates
         manager.delegate = self
@@ -90,12 +82,9 @@ class LocationManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocation
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let currentLocation = locations.last else {return}
         self.userLocation = currentLocation
-        self.currentLocation = CurrentLocationData(
-            currentLatitude: currentLocation.coordinate.latitude,
-            currentLongitude: currentLocation.coordinate.longitude
-        )
+        deviceModel.data.currentLatitude = currentLocation.coordinate.latitude
+        deviceModel.data.currentLongitude = currentLocation.coordinate.longitude
         
-        postToBackend(data: self.currentLocation ?? CurrentLocationData(currentLatitude: 39.13, currentLongitude: -84.52)) // coalescing to UC coords for now
     }
         
     // MARK: Location Authorization

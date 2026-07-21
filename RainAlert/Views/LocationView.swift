@@ -29,6 +29,7 @@ struct LocationRow: View {
 struct LocationView: View {
     @State var locationsConfirmed: Bool = false
     @State var presentAddLocationSheet = false
+    @ObservedObject var deviceModel: DeviceModel
     @ObservedObject var locationModel: SignificantLocationModel
     
     var body: some View {
@@ -79,7 +80,20 @@ struct LocationView: View {
                  */
                 Button(action: {
                     locationModel.save()
-//                    locationModel.format()
+                    do {
+                        let jsonData = try locationModel.format(withToken: deviceModel.data.deviceToken)
+                        Task {
+                            do {
+                                let publisher = DataPublisher() // will actually be passing a shared publisher instance to each view
+                                try await publisher.post(jsonData, to: locationModel.postPath)
+                            } catch {
+                                print("POST Error: \(error)")
+                            }
+                        }
+
+                    } catch {
+                        print("Formatting error: \(error)")
+                    }
                     locationsConfirmed = true
                 }) {
                     if(!locationsConfirmed){
@@ -109,5 +123,5 @@ struct LocationView: View {
 
 #Preview {
     var locationModel = SignificantLocationModel()
-    LocationView(locationModel: locationModel)
+    LocationView(deviceModel: dummyDeviceModel, locationModel: locationModel)
 }

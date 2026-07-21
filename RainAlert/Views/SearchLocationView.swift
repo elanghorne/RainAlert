@@ -114,7 +114,7 @@ struct SearchLocationView: View {
 var dummyLocationModel = SignificantLocationModel()
 #Preview {
     SearchLocationView(locationModel: dummyLocationModel)
-        .environmentObject(LocationManager())
+        .environmentObject(LocationManager(deviceModel: dummyDeviceModel))
 }
 
 // MARK: MapView Live Selection

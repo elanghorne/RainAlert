@@ -10,6 +10,8 @@ import SwiftUI
 import UserNotifications
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    var deviceModel: DeviceModel?
+    
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         // This is the "app launched" hook.
@@ -30,6 +32,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         // convert token from raw bytes to hex string
         let tokenString = deviceToken.map { String(format: "%02x", $0) }.joined()
+        deviceModel?.data.deviceToken = tokenString
+        
         print(tokenString)
     }
 
