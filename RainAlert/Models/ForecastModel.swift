@@ -35,8 +35,11 @@ class ForecastModel: ObservableObject {
         }
     }
     
-    func postToBackend() {
-        let data = UserDefaults.standard.data(forKey: "forecastData")
+    func format() throws -> Data {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        
+        return try encoder.encode(self.data)
     }
     
 }

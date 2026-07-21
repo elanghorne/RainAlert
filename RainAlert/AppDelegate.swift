@@ -22,17 +22,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 }
             }
         }
-        Task {
-            do {
-                let testDict = ["test1": 1]
-                let jsonData = try JSONEncoder().encode(testDict)
-                
-                let publisher = DataPublisher()
-                try await publisher.post(jsonData, to: "/test")
-            } catch {
-                print("Post error: \(error)")
-            }
-        }
 
         return true
     }

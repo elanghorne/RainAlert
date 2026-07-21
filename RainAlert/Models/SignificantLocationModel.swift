@@ -4,7 +4,6 @@
 //
 //  Created by Eric Langhorne on 7/14/26.
 //
-
 import Foundation
 
 struct SignificantLocationData: Identifiable, Codable {
@@ -40,8 +39,10 @@ class SignificantLocationModel: ObservableObject {
         }
     }
     
-    func postToBackend() {
-        let data = UserDefaults.standard.data(forKey: "significantLocationData")
+    func format() throws -> Data {
+        let encoder = JSONEncoder()
+        
+        return try encoder.encode(self.significantLocations)
     }
     
 }

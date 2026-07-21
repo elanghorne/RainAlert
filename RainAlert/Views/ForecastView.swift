@@ -65,7 +65,7 @@ struct ForecastView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         forecastModel.save()
-                        forecastModel.postToBackend()
+//                        forecastModel.format()
                         settingsConfirmed = true
                         // trying to flash the button green with a check before returning to HomeView upon confirmation
                     }) {

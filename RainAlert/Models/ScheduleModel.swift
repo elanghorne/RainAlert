@@ -14,6 +14,7 @@ struct Window: Identifiable, Codable{
 
 class ScheduleModel: ObservableObject {
     @Published var windows: [Window] = []
+    let postPath = "/schedule"
     
     init() {
         if let windowData = UserDefaults.standard.data(forKey: "scheduleWindows") {
@@ -36,8 +37,11 @@ class ScheduleModel: ObservableObject {
         }
     }
     
-    func postToBackend() {
-        let data = UserDefaults.standard.data(forKey: "scheduleWindows")
+    func format() throws -> Data {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        
+        return try encoder.encode(self.windows)
     }
     
 }

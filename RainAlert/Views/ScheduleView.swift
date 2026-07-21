@@ -4,16 +4,8 @@
 //
 //  Created by Eric Langhorne on 7/3/26.
 //
-
 import SwiftUI
-//import Foundation
-
-//struct Window: Identifiable {
-//    let id = UUID()
-//    var startTime = Calendar.current.startOfDay(for: Date())
-//    var endTime = Calendar.current.startOfDay(for: Date())
-//
-//}
+import Foundation
 
 struct WindowRow: View {
     @Binding var window: Window
@@ -91,7 +83,20 @@ struct ScheduleView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     scheduleModel.save()
-                    scheduleModel.postToBackend()
+                    do {
+                        let jsonData = try scheduleModel.format()
+                        Task {
+                            do {
+                                let publisher = DataPublisher() // will actually be passing a shared publisher instance to each view
+                                try await publisher.post(jsonData, to: scheduleModel.postPath)
+                            } catch {
+                                print("POST Error: \(error)")
+                            }
+                        }
+
+                    } catch {
+                        print("Formatting error: \(error)")
+                    }
                     windowsConfirmed = true
                     // trying to flash the button green with a check before returning to HomeView upon confirmation
                 }) {
