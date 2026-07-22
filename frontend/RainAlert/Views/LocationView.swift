@@ -22,6 +22,7 @@ struct LocationRow: View {
     var body: some View {
         HStack {
             Text(location.name ?? "Location \(index + 1)")
+                .foregroundColor(.black)
         }
     }
 }
@@ -35,6 +36,12 @@ struct LocationView: View {
     var body: some View {
         ZStack {
             AppColor.background.ignoresSafeArea()
+            Image("appicon-transparent")
+                .renderingMode(.template)
+                .resizable()
+                .scaledToFit()
+                .foregroundColor(.gray.opacity(0.4))
+                .frame(width: 500, height: 500)
             VStack {
                 Text("Significant Locations")
                     .font(.system(size: 25, weight: .semibold))
@@ -43,11 +50,12 @@ struct LocationView: View {
                 List {
                     ForEach($locationModel.significantLocations) { $location in
                         LocationRow(location: $location, index: locationModel.significantLocations.firstIndex(where: { element in element.id == location.id})!)
+                            .listRowBackground(Color.clear)
                     }
                     .onDelete { indexSet in locationModel.significantLocations.remove(atOffsets: indexSet) }
                 }
                 .scrollContentBackground(.hidden)
-                .background(AppColor.background)
+                .background(Color.clear)
                 
                 if(locationModel.significantLocations.count < 3){
 //                    Button(action: {

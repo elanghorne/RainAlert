@@ -16,6 +16,12 @@ struct ForecastView: View {
     var body: some View {
         ZStack {
             AppColor.background.ignoresSafeArea()
+            Image("appicon-transparent")
+                .renderingMode(.template)
+                .resizable()
+                .scaledToFit()
+                .foregroundColor(.gray.opacity(0.4))
+                .frame(width: 500, height: 500)
             VStack {
                 
                 Text("Customize Daily Forecast")
@@ -26,7 +32,7 @@ struct ForecastView: View {
                 Spacer()
                 HStack {
                     Text("Forecast Time")
-                        .font(.system(size: 25, weight: .semibold))
+                        .font(.system(size: 20, weight: .semibold))
                         .foregroundColor(.black)
                     
                     DatePicker(
@@ -38,7 +44,7 @@ struct ForecastView: View {
                 }
                 Toggle(isOn: $forecastModel.data.includeCurrentLocation) {
                     Text("Include Current Location")
-                        .font(.system(size: 25, weight: .semibold))
+                        .font(.system(size: 20, weight: .semibold))
                         .foregroundColor(.black)
                 }
                 .padding(.horizontal)
@@ -49,7 +55,7 @@ struct ForecastView: View {
                 
                 Toggle(isOn: $forecastModel.data.includeSignificantLocations) {
                     Text("Include Significant Locations")
-                        .font(.system(size: 25, weight: .semibold))
+                        .font(.system(size: 20, weight: .semibold))
                         .foregroundColor(.black)
                 }
                 .padding(.horizontal)
@@ -59,8 +65,7 @@ struct ForecastView: View {
 
                 Spacer()
                 Spacer()
-                
-                
+                Spacer()
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

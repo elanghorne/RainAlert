@@ -43,6 +43,12 @@ struct ScheduleView: View {
     var body: some View {
         ZStack {
             AppColor.background.ignoresSafeArea()
+            Image("appicon-transparent")
+                .renderingMode(.template)
+                .resizable()
+                .scaledToFit()
+                .foregroundColor(.gray.opacity(0.4))
+                .frame(width: 500, height: 500)
             VStack {
                 Text("Customize Notification Schedule")
                     .font(.system(size: 25, weight: .semibold))
@@ -52,11 +58,12 @@ struct ScheduleView: View {
                 List {
                     ForEach($scheduleModel.windows) { $window in
                         WindowRow(window: $window, index: scheduleModel.windows.firstIndex(where: { element in element.id == window.id})!)
+                            .listRowBackground(AppColor.primary)
                     }
                     .onDelete { indexSet in scheduleModel.windows.remove(atOffsets: indexSet) }
                 }
                 .scrollContentBackground(.hidden)
-                .background(AppColor.background)
+                .background(Color.clear)
                 
                 if(scheduleModel.windows.count < 5){
                     Button(action: {
