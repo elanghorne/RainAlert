@@ -22,7 +22,7 @@ class DeviceModel: ObservableObject {
         if let deviceData = UserDefaults.standard.data(forKey: "deviceData") {
             do {
                 let decoder = JSONDecoder()
-                self.data = try decoder.decode(DeviceData.self, from: deviceData)
+                self.data.alertsOn = try decoder.decode(Bool.self, from: deviceData)
             } catch {
                 print("Decoding error: \(error)")
             }
