@@ -32,14 +32,14 @@ class DeviceModel: ObservableObject {
     func save() {
         do {
             let encoder = JSONEncoder()
-            let deviceData = try encoder.encode(self.data)
+            let deviceData = try encoder.encode(self.data.alertsOn)
             UserDefaults.standard.set(deviceData, forKey: "deviceData") // may need to change this eventually. alertsOn is probably the only thing that should persist here.
         } catch {
             print("Encoding error: \(error)")
         }
     }
     
-    func format() throws -> Data {
+    func format() throws -> Data { 
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
         

@@ -78,12 +78,12 @@ struct ForecastView: View {
                                     let publisher = DataPublisher() // will actually be passing a shared publisher instance to each view
                                     try await publisher.post(jsonData, to: forecastModel.postPath)
                                 } catch {
-                                    print("POST Error: \(error)")
+                                    print("ForecastModel POST Error: \(error)")
                                 }
                             }
 
                         } catch {
-                            print("Formatting error: \(error)")
+                            print("ForecastModel formatting error: \(error)")
                         }
                         settingsConfirmed = true
                         // trying to flash the button green with a check before returning to HomeView upon confirmation

@@ -63,6 +63,22 @@ struct HomeView: View {
                         Text(deviceModel.data.alertsOn ? "Notifications On" : "Notifications Off")
                             .foregroundColor(.black)
                     }
+                    .onChange(of: deviceModel.data.alertsOn) { oldValue, newValue in
+                        deviceModel.save()
+                        Task {
+                            do {
+                                let jsonData = try deviceModel.format()
+                                do {
+                                    let publisher = DataPublisher() // will actually be passing a shared publisher instance to each view
+                                    try await publisher.post(jsonData, to: deviceModel.postPath)
+                                } catch {
+                                    print("DeviceModel POST error: \(error)")
+                                }
+                            } catch {
+                                print("DeviceModel formatting error: \(error)")
+                            }
+                        }
+                    }
                     Spacer()
                     NavigationLink {
                         ScheduleView(deviceModel: deviceModel, scheduleModel: scheduleModel)

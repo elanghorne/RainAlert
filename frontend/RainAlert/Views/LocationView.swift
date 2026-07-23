@@ -95,12 +95,12 @@ struct LocationView: View {
                                 let publisher = DataPublisher() // will actually be passing a shared publisher instance to each view
                                 try await publisher.post(jsonData, to: locationModel.postPath)
                             } catch {
-                                print("POST Error: \(error)")
+                                print("LocationModel POST Error: \(error)")
                             }
                         }
 
                     } catch {
-                        print("Formatting error: \(error)")
+                        print("LocationModel formatting error: \(error)")
                     }
                     locationsConfirmed = true
                 }) {

@@ -96,12 +96,12 @@ struct ScheduleView: View {
                                 let publisher = DataPublisher() // will actually be passing a shared publisher instance to each view
                                 try await publisher.post(jsonData, to: scheduleModel.postPath)
                             } catch {
-                                print("POST Error: \(error)")
+                                print("ScheduleModel POST Error: \(error)")
                             }
                         }
 
                     } catch {
-                        print("Formatting error: \(error)")
+                        print("ScheduleModel formatting error: \(error)")
                     }
                     windowsConfirmed = true
                     // trying to flash the button green with a check before returning to HomeView upon confirmation
