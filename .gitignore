@@ -67,3 +67,6 @@ fastlane/test_output
 Config.xcconfig
 
 *.png
+
+rainalert.db
+node_modules/
