@@ -1,5 +1,8 @@
 const db = require('./database')
+require('dotenv').config()
+const { sendAPNRequest } = require('./apn')
 
+const apiKey = process.env.API_KEY
 const isTimeForRainCheck = true
 
 function getDeviceArray() {
@@ -80,22 +83,64 @@ async function inActiveTimeWindow(device, currentTime) {
     return true
 }
 
+async function getAPIData(location) {
+    const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${location.latitude}&lon=${location.longitude}&appid=${apiKey}&exclude=minutely,hourly,current,alerts`
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+        const data = await response.json();
+        console.log(data);
+        return data
+    } catch (error) {
+        console.error('Fetch error:', error.message);
+  }
+}   
+
 async function sendForecast(device, dailyForecast) {
     const locations = await getDeviceLocations(device)
-    console.log(locations)
+    // console.log(locations)
 
     if (dailyForecast.include_current_location) {
-        const currentLocation = { device_token: device.device_token, location_id: null, latitude: device.current_latitude, longitude: device.current_longitude, name: "current location" }
+        const currentLocation = { device_token: device.device_token, location_id: null, latitude: device.current_latitude, longitude: device.current_longitude, name: "your current location" }
         locations.push(currentLocation)
     }
 
     // send weather requests for daily forecasts per location
+    let locationsWithPotentialRain = []
+    for (let i = 0; i < locations.length; i++) {
+        const data = await getAPIData(locations[i])
+        // parse weather data per location
+        if (data.daily[0].pop > 0) {
+            locationsWithPotentialRain.push(locations[i].name)
+        }
+    }
 
-    // parse weather data per location
+    // build string based on weather results. current max locations is 4 (including current). current will always be last in the list.
+    let notificationString = ""
+    switch (locationsWithPotentialRain.length) {
+        case 0:
+            notificationString = "No rain in the forecast today. Enjoy the clear weather!" // maybe let the user turn this off if they only want notifs when rain is expected
+            break
+        case 1: 
+            notificationString = `It looks like it might rain at ${locationsWithPotentialRain[0]} today. Don't forget an umbrella!`
+            break
+        case 2:
+            notificationString = `It looks like it might rain at ${locationsWithPotentialRain[0]} and ${locationsWithPotentialRain[1]} today. Don't forget an umbrella!`
+            break
+        case 3:
+            notificationString = `It looks like it might rain at ${locationsWithPotentialRain[0]}, ${locationsWithPotentialRain[1]}, and ${locationsWithPotentialRain[2]} today. Don't forget an umbrella!`
+            break
+        case 4:
+            notificationString = `It looks like it might rain at ${locationsWithPotentialRain[0]}, ${locationsWithPotentialRain[1]}, ${locationsWithPotentialRain[2]}, and your current location today. Don't forget an umbrella!`
+            break
+        default:
+            notificationString = "There must be some sort of mistake here."
+    }
+    
+    sendAPNRequest(notificationString, device.device_token)
 
-    // build string based on weather results
-
-    // send apn request
 }
 
 function checkForImminentRain(latitude, longitude) {
@@ -112,19 +157,20 @@ function sendRainAlert(rainData, deviceToken) {
 
 async function runScheduler() {
     const devices = await getDeviceArray()
-    console.log(devices)
+    // console.log(devices)
 
     const currentTime = "someTime"
+    // set isTimeForRainCheck
 
     for (let i = 0; i < devices.length; i++) {
         const dailyForecast = await getDeviceDailyForecast(devices[i])
-        console.log(dailyForecast)
+        // console.log(dailyForecast)
 
         if (isForecastTime(currentTime, dailyForecast)) {
             await sendForecast(devices[i], dailyForecast)
         }
 
-        if (isTimeForRainCheck && devices[i].alerts_on && inActiveTimeWindow(devices[i]), currentTime) {
+        if (isTimeForRainCheck && devices[i].alerts_on && await inActiveTimeWindow(devices[i], currentTime)) {
             // for now, rain checks are only for current location
 
             const rainData = checkForImminentRain(devices[i].current_latitude, devices[i].current_longitude)
