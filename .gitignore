@@ -71,3 +71,4 @@ Config.xcconfig
 rainalert.db
 node_modules/
 *.env
+*.p8
