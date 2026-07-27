@@ -3,9 +3,12 @@ require('dotenv').config()
 const { sendAPNRequest } = require('./apn')
 
 const apiKey = process.env.API_KEY
+const DAILY_ONLY = "daily"
+const HOURLY_ONLY = "hourly"
+const MINUTELY_ONLY = "minutely"
 const isTimeForRainCheck = true
 
-function getDeviceArray() {
+function getDevices() {
     return new Promise((resolve, reject) => {
         db.all("SELECT * FROM devices", [], function(err, rows) {
             if (err) {
@@ -53,12 +56,30 @@ function getDeviceDailyForecast(device) {
     })
 }
 
+// function getDeviceLocations(device) {
+//     return new Promise((resolve, reject) => {
+//         db.all(`
+//             SELECT *
+//             FROM locations
+//             WHERE device_token = ?
+//             `,
+//             [device.device_token],
+//             function(err, rows) {
+//                 if (err) {
+//                     console.error(err)
+//                     return reject(err)
+//                 }
+//                 resolve(rows)
+//             })
+//     })
+// }
+
 function getDeviceLocations(device) {
     return new Promise((resolve, reject) => {
         db.all(`
             SELECT *
-            FROM locations
-            WHERE device_token = ?
+            FROM devices JOIN locations
+            WHERE devices.device_token = locations.device_token AND locations.device_token = ?
             `,
             [device.device_token],
             function(err, rows) {
@@ -71,20 +92,25 @@ function getDeviceLocations(device) {
     })
 }
 
+
 function isForecastTime(currentTime, dailyForecast) {
     // check if time matches forecast notification time
-    return true
+    return false
 }
 
 async function inActiveTimeWindow(device, currentTime) {
     const timeWindows = await getDeviceTimeWindows(device)
-    console.log(timeWindows)
+    // console.log(timeWindows)
     // check if current time falls within user window
     return true
 }
 
-async function getAPIData(location) {
-    const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${location.latitude}&lon=${location.longitude}&appid=${apiKey}&exclude=minutely,hourly,current,alerts`
+async function getAPIData(location, filter) {
+    let exclusions = ["minutely", "hourly", "daily"]
+    const removalIndex = exclusions.indexOf(filter)
+    exclusions.splice(removalIndex, 1)
+
+    const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${location.latitude}&lon=${location.longitude}&appid=${apiKey}&exclude=${exclusions[0]},${exclusions[1]},current,alerts`
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -100,7 +126,7 @@ async function getAPIData(location) {
 
 async function sendForecast(device, dailyForecast) {
     const locations = await getDeviceLocations(device)
-    // console.log(locations)
+    console.log(locations)
 
     if (dailyForecast.include_current_location) {
         const currentLocation = { device_token: device.device_token, location_id: null, latitude: device.current_latitude, longitude: device.current_longitude, name: "your current location" }
@@ -110,7 +136,7 @@ async function sendForecast(device, dailyForecast) {
     // send weather requests for daily forecasts per location
     let locationsWithPotentialRain = []
     for (let i = 0; i < locations.length; i++) {
-        const data = await getAPIData(locations[i])
+        const data = await getAPIData(locations[i], DAILY_ONLY)
         // parse weather data per location
         if (data.daily[0].pop > 0) {
             locationsWithPotentialRain.push(locations[i].name)
@@ -139,24 +165,71 @@ async function sendForecast(device, dailyForecast) {
             notificationString = "There must be some sort of mistake here."
     }
     
-    sendAPNRequest(notificationString, device.device_token)
+    await sendAPNRequest(notificationString, device.device_token)
 
 }
 
-function checkForImminentRain(latitude, longitude) {
+function intensityToString(intensity) {
+    let intensityString = ""
+    if (intensity <= 2.5) {
+        intensityString = "light"
+    } else if (intensity <= 7.6) {
+        intensityString = "moderate"
+    } else if (intensity <= 40) {
+        intensityString = "heavy"
+    } else {
+        intensityString = "intense"
+    }
+
+    return intensityString
+}
+
+async function checkForImminentRain(device) {
     // sends weather request for minutely data
+    const currentLocation = { device_token: device.device_token, location_id: null, latitude: device.current_latitude, longitude: device.current_longitude, name: "your current location" }
 
-    // returns how many minutes until rain (integer), intensity of rain (string). null if no rain in next *20* minutes
+    const data = await getAPIData(currentLocation, MINUTELY_ONLY)
+    let firstMinuteOfRain = null
+    let lastMinuteOfRain = null
+    let sumOfRainInmm = 0
+    let peakRainIntensity = 0
+
+    for (let i = 0; i < data.minutely.length; i++) {
+        let currentMinuteRainIntensity = data.minutely[i].precipitation
+        sumOfRainInmm += currentMinuteRainIntensity
+        peakRainIntensity = Math.max(peakRainIntensity, currentMinuteRainIntensity)
+
+        if (firstMinuteOfRain === null && currentMinuteRainIntensity > 0) {
+            firstMinuteOfRain = i
+        }
+
+        if (firstMinuteOfRain != null && currentMinuteRainIntensity > 0) {
+            lastMinuteOfRain = i
+        }
+    }
+
+    let avgRainIntensity = (sumOfRainInmm / (lastMinuteOfRain - firstMinuteOfRain + 1)) 
+    // returns string with how many minutes until rain and intensity of rain (string). null if no rain in next *60* minutes (very subject to change)
+    const peakString = intensityToString(peakRainIntensity)
+    const avgString = intensityToString(avgRainIntensity)
+
+    // firstMinuteOfRain ensures string is only assigned if rain is expected. need to add estimated length of rain time
+    let notificationString = null
+    if (firstMinuteOfRain != null && peakString == avgString) {
+        notificationString = `Rain is expected in ${firstMinuteOfRain} minutes. Expect ${avgString} rain.`
+    } else if (firstMinuteOfRain != null && peakString != avgString) {
+        notificationString =  `Rain is expected in ${firstMinuteOfRain} minutes. Expect ${avgString} to ${peakString} rain.`
+    }
+
+    return notificationString
 }
 
-function sendRainAlert(rainData, deviceToken) {
-    // build apn request based on rainData
-
-    // send apn request
+function sendRainAlert(rainAlertString, deviceToken) {
+    sendAPNRequest(rainAlertString, deviceToken)
 }
 
 async function runScheduler() {
-    const devices = await getDeviceArray()
+    const devices = await getDevices()
     // console.log(devices)
 
     const currentTime = "someTime"
@@ -173,10 +246,10 @@ async function runScheduler() {
         if (isTimeForRainCheck && devices[i].alerts_on && await inActiveTimeWindow(devices[i], currentTime)) {
             // for now, rain checks are only for current location
 
-            const rainData = checkForImminentRain(devices[i].current_latitude, devices[i].current_longitude)
+            const rainAlertString = await checkForImminentRain(devices[i])
 
-            if (rainData) {
-                sendRainAlert(rainData, devices[i].device_token)
+            if (rainAlertString != null) {
+                await sendRainAlert(rainAlertString, devices[i].device_token)
             }
 
         }
