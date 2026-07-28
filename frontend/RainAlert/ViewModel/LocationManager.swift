@@ -84,7 +84,20 @@ class LocationManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocation
         self.userLocation = currentLocation
         deviceModel.data.currentLatitude = currentLocation.coordinate.latitude
         deviceModel.data.currentLongitude = currentLocation.coordinate.longitude
-        
+        do {
+            let jsonData = try deviceModel.format()
+            Task {
+                do {
+                    let publisher = DataPublisher() // will actually be passing a shared publisher instance to each view
+                    try await publisher.post(jsonData, to: deviceModel.postPath)
+                } catch {
+                    print("DeviceModel POST Error: \(error)")
+                }
+            }
+
+        } catch {
+            print("DeviceModel formatting error: \(error)")
+        }
     }
         
     // MARK: Location Authorization
