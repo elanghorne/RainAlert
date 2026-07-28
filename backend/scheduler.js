@@ -95,7 +95,7 @@ function getDeviceLocations(device) {
 
 function isForecastTime(currentTime, dailyForecast) {
     // check if time matches forecast notification time
-    return false
+    return true
 }
 
 async function inActiveTimeWindow(device, currentTime) {
