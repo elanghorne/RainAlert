@@ -114,8 +114,8 @@ async function getAPIData(location, filter) {
     try {
         const response = await fetch(url);
         if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
         const data = await response.json();
         console.log(data);
         return data
@@ -186,7 +186,7 @@ function intensityToString(intensity) {
 
 async function checkForImminentRain(device) {
     // sends weather request for minutely data
-    const currentLocation = { device_token: device.device_token, location_id: null, latitude: device.current_latitude, longitude: device.current_longitude, name: "your current location" }
+    const currentLocation = { device_token: device.device_token, location_id: null, latitude: device.current_latitude, longitude: device.current_longitude, name: "your current location" } // this is kind of hacky. need a cleaner way to do this
 
     const data = await getAPIData(currentLocation, MINUTELY_ONLY)
     let firstMinuteOfRain = null
@@ -209,11 +209,11 @@ async function checkForImminentRain(device) {
     }
 
     let avgRainIntensity = (sumOfRainInmm / (lastMinuteOfRain - firstMinuteOfRain + 1)) 
-    // returns string with how many minutes until rain and intensity of rain (string). null if no rain in next *60* minutes (very subject to change)
+    // returns string with how many minutes until rain and intensity of rain. null if no rain in next *60* minutes (very subject to change)
     const peakString = intensityToString(peakRainIntensity)
     const avgString = intensityToString(avgRainIntensity)
 
-    // firstMinuteOfRain ensures string is only assigned if rain is expected. need to add estimated length of rain time
+    // firstMinuteOfRain check ensures string is only assigned if rain is expected. need to add estimated length of rain time
     let notificationString = null
     if (firstMinuteOfRain != null && peakString == avgString) {
         notificationString = `Rain is expected in ${firstMinuteOfRain} minutes. Expect ${avgString} rain.`
