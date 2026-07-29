@@ -265,7 +265,7 @@ async function runScheduler() {
 
     const currentDate = new Date()
     const currentMinute = currentDate.getUTCMinutes()
-    const isTimeForRainCheck = (currentMinute % MINUTES_BETWEEN_RAIN_CHECKS) === 0
+    const isTimeForRainCheck = ((currentMinute % MINUTES_BETWEEN_RAIN_CHECKS) === 0)
 
     for (let i = 0; i < devices.length; i++) {
         const dailyForecast = await getDeviceDailyForecast(devices[i])
@@ -288,7 +288,6 @@ async function runScheduler() {
     }
     console.log("Scheduler run complete.")
 }
-
 
 runScheduler()
 setInterval(runScheduler, (1000 * 60))

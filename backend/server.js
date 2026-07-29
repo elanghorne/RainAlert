@@ -5,6 +5,11 @@ const app = express()
 
 app.use(express.json())
 
+// for uptime robot
+app.get('/health', (req, res) => {
+    res.sendStatus(200)
+})
+
 app.post('/device', async (req, res) => {
     const deviceData = req.body
     if (deviceData == null) {
@@ -130,10 +135,6 @@ function handleLocationData(locationData)  {
                        
         })
     }
-
-
-    
-
     
 function handleForecastData(forecastData)  {
     return new Promise ((resolve, reject) => {
