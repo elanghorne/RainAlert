@@ -6,7 +6,7 @@ const apiKey = process.env.API_KEY
 const DAILY_ONLY = "daily"
 const HOURLY_ONLY = "hourly"
 const MINUTELY_ONLY = "minutely"
-const isTimeForRainCheck = true
+const MINUTES_BETWEEN_RAIN_CHECKS = 6
 
 function getDevices() {
     return new Promise((resolve, reject) => {
@@ -92,17 +92,48 @@ function getDeviceLocations(device) {
     })
 }
 
+function isForecastTime(dailyForecast) {
+    const currentDate = new Date()
+    const currentUTCHour = currentDate.getUTCHours()
+    const currentUTCMinute = currentDate.getUTCMinutes()
 
-function isForecastTime(currentTime, dailyForecast) {
-    // check if time matches forecast notification time
-    return true
+    const forecastDate = new Date(dailyForecast.forecast_time)
+    const forecastUTCHour = forecastDate.getUTCHours()
+    const forecastUTCMinute = forecastDate.getUTCMinutes()
+
+    return (currentUTCHour === forecastUTCHour && currentUTCMinute === forecastUTCMinute)
 }
 
 async function inActiveTimeWindow(device, currentTime) {
     const timeWindows = await getDeviceTimeWindows(device)
-    // console.log(timeWindows)
-    // check if current time falls within user window
-    return true
+    console.log(timeWindows)
+    if (timeWindows.length === 0) {
+        return true
+    }
+
+    const currentDate = new Date()
+    const currentUTCHour = currentDate.getUTCHours()
+    const currentUTCMinute = currentDate.getUTCMinutes()
+
+    for (let i = 0; i < timeWindows.length; i++) {
+        const windowStartTime = new Date(timeWindows[i].start_time)
+        const windowStartUTCHour = windowStartTime.getUTCHours()
+        const windowStartUTCMinute = windowStartTime.getUTCMinutes()
+
+        const windowEndTime = new Date(timeWindows[i].end_time)
+        const windowEndUTCHour = windowEndTime.getUTCHours()
+        const windowEndUTCMinute = windowEndTime.getUTCMinutes()
+
+        const currentMinutes = currentUTCHour * 60 + currentUTCMinute
+        const startMinutes = windowStartUTCHour * 60 + windowStartUTCMinute
+        const endMinutes = windowEndUTCHour * 60 + windowEndUTCMinute
+
+        if (currentMinutes >= startMinutes && currentMinutes <= endMinutes) {
+            return true
+        }
+    }
+
+    return false
 }
 
 async function getAPIData(location, filter) {
@@ -117,7 +148,7 @@ async function getAPIData(location, filter) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         return data
     } catch (error) {
         console.error('Fetch error:', error.message);
@@ -126,7 +157,7 @@ async function getAPIData(location, filter) {
 
 async function sendForecast(device, dailyForecast) {
     const locations = await getDeviceLocations(device)
-    console.log(locations)
+    // console.log(locations)
 
     if (dailyForecast.include_current_location) {
         const currentLocation = { device_token: device.device_token, location_id: null, latitude: device.current_latitude, longitude: device.current_longitude, name: "your current location" }
@@ -143,7 +174,7 @@ async function sendForecast(device, dailyForecast) {
         }
     }
 
-    // build string based on weather results. current max locations is 4 (including current). current will always be last in the list.
+    // current max locations is 4 (including current). current will always be last in the list.
     let notificationString = ""
     switch (locationsWithPotentialRain.length) {
         case 0:
@@ -229,21 +260,22 @@ function sendRainAlert(rainAlertString, deviceToken) {
 }
 
 async function runScheduler() {
+    console.log("Running scheduler...")
     const devices = await getDevices()
-    // console.log(devices)
 
-    const currentTime = "someTime"
-    // set isTimeForRainCheck
+    const currentDate = new Date()
+    const currentMinute = currentDate.getUTCMinutes()
+    const isTimeForRainCheck = (currentMinute % MINUTES_BETWEEN_RAIN_CHECKS) === 0
 
     for (let i = 0; i < devices.length; i++) {
         const dailyForecast = await getDeviceDailyForecast(devices[i])
         // console.log(dailyForecast)
 
-        if (isForecastTime(currentTime, dailyForecast)) {
+        if (isForecastTime(dailyForecast)) {
             await sendForecast(devices[i], dailyForecast)
         }
 
-        if (isTimeForRainCheck && devices[i].alerts_on && await inActiveTimeWindow(devices[i], currentTime)) {
+        if (isTimeForRainCheck && devices[i].alerts_on && await inActiveTimeWindow(devices[i])) {
             // for now, rain checks are only for current location
 
             const rainAlertString = await checkForImminentRain(devices[i])
@@ -254,8 +286,9 @@ async function runScheduler() {
 
         }
     }
+    console.log("Scheduler run complete.")
 }
 
-// wake at each minute mark
+
 runScheduler()
-// sleep
+setInterval(runScheduler, (1000 * 60))
