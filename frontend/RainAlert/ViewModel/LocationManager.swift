@@ -103,10 +103,20 @@ class LocationManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocation
     // MARK: Location Authorization
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
-        case .authorizedAlways: manager.requestLocation()
-        case .authorizedWhenInUse: manager.requestAlwaysAuthorization()
-        case .notDetermined: manager.requestAlwaysAuthorization()
-        case .denied: handleLocationError()
+        case .authorizedAlways:
+            print("authorized always")
+            manager.requestLocation()
+        case .authorizedWhenInUse:
+            print("when in use")
+            manager.requestLocation()
+            
+        case .notDetermined:
+            print("not determined")
+            manager.requestLocation()
+            
+        case .denied:
+            manager.requestLocation()
+            handleLocationError()
         default: ()
         }
     }

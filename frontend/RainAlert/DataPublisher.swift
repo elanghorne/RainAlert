@@ -11,6 +11,7 @@ class DataPublisher {
     var deviceToken: String?
     
     func post(_ jsonData: Data, to path: String) async throws {
+        print("Attempting POST to \(baseUrl + path)")
         // build request, send, check response
         guard let url = URL(string: baseUrl + path) else {
             throw URLError(.badURL)

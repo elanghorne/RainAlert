@@ -9,8 +9,8 @@ import Foundation
 
 struct DeviceData: Codable {
     var deviceToken: String = ""
-    var currentLatitude: Double = 34.13
-    var currentLongitude: Double = -84.52
+    var currentLatitude: Double = 34.4173845
+    var currentLongitude: Double = -119.6967699
     var alertsOn = false
 }
 

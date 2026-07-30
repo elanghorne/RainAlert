@@ -2,11 +2,26 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>BACKEND_BASE_URL</key>
-	<string>$(BACKEND_BASE_URL)</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>remote-notification</string>
-	</array>
+<key>BACKEND_BASE_URL</key>
+<string>$(BACKEND_BASE_URL)</string>
+<key>NSAppTransportSecurity</key>
+<dict>
+<key>NSExceptionDomains</key>
+<dict>
+<key>rainalert.duckdns.org</key>
+<dict>
+    <key>NSExceptionAllowsInsecureHTTPLoads</key>
+    <true/>
+</dict>
+</dict>
+</dict>
+<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+<string>RainAlert uses your location to send rain alerts when it's about to rain near you.</string>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>RainAlert uses your location to send rain alerts when it's about to rain near you.</string>
+<key>UIBackgroundModes</key>
+<array>
+<string>remote-notification</string>
+</array>
 </dict>
 </plist>

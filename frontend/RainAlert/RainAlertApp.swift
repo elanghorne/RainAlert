@@ -17,6 +17,7 @@ struct RainAlertApp: App {
             HomeView(deviceModel: deviceModel)
                 .onAppear {
                     appDelegate.deviceModel = deviceModel
+                    print(AppConfig.backendBaseURL)
                 }
         }
     }
