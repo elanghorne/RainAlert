@@ -56,24 +56,6 @@ function getDeviceDailyForecast(device) {
     })
 }
 
-// function getDeviceLocations(device) {
-//     return new Promise((resolve, reject) => {
-//         db.all(`
-//             SELECT *
-//             FROM locations
-//             WHERE device_token = ?
-//             `,
-//             [device.device_token],
-//             function(err, rows) {
-//                 if (err) {
-//                     console.error(err)
-//                     return reject(err)
-//                 }
-//                 resolve(rows)
-//             })
-//     })
-// }
-
 function getDeviceLocations(device) {
     return new Promise((resolve, reject) => {
         db.all(`
