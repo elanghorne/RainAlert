@@ -183,6 +183,7 @@ async function sendForecast(device, dailyForecast) {
 }
 
 function intensityToString(intensity) {
+    // returns string with how many minutes until rain and intensity of rain. null if no rain in next *60* minutes (very subject to change)
     let intensityString = ""
     if (intensity <= 2.5) {
         intensityString = "light"
@@ -221,17 +222,25 @@ async function checkForImminentRain(device) {
         }
     }
 
-    let avgRainIntensity = (sumOfRainInmm / (lastMinuteOfRain - firstMinuteOfRain + 1)) 
-    // returns string with how many minutes until rain and intensity of rain. null if no rain in next *60* minutes (very subject to change)
+    const expectedDuration = lastMinuteOfRain - firstMinuteOfRain + 1
+    const avgRainIntensity = (sumOfRainInmm / expectedDuration) 
     const peakString = intensityToString(peakRainIntensity)
     const avgString = intensityToString(avgRainIntensity)
 
-    // firstMinuteOfRain check ensures string is only assigned if rain is expected. need to add estimated length of rain time
+    // firstMinuteOfRain check ensures string is only assigned if rain is expected. if rain is expected in 0 minutes, uses "it's raining" string and adds expected duration
     let notificationString = null
     if (firstMinuteOfRain != null && peakString == avgString) {
-        notificationString = `Rain is expected in ${firstMinuteOfRain} minutes. Expect ${avgString} rain.`
+        if(firstMinuteOfRain === 0) {
+            notificationString = `It's raining! Expect ${avgString} rain for about ${lastMinuteOfRain - firstMinuteOfRain + 1} minutes.`
+        } else {
+            notificationString = `Rain is expected in ${firstMinuteOfRain} minutes. Expect ${avgString} rain.`
+        }
     } else if (firstMinuteOfRain != null && peakString != avgString) {
-        notificationString =  `Rain is expected in ${firstMinuteOfRain} minutes. Expect ${avgString} to ${peakString} rain.`
+        if(firstMinuteOfRain === 0) {
+            notificationString = `It's raining! Expect ${avgString} to ${peakString} rain for about ${lastMinuteOfRain - firstMinuteOfRain + 1} minutes.`
+        } else {
+            notificationString =  `Rain is expected in ${firstMinuteOfRain} minutes. Expect ${avgString} to ${peakString} rain.`
+        }
     }
 
     return notificationString
