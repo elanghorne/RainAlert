@@ -199,8 +199,7 @@ function intensityToString(intensity) {
 }
 
 async function checkForImminentRain(device) {
-    // sends weather request for minutely data
-    const currentLocation = { device_token: device.device_token, location_id: null, latitude: device.current_latitude, longitude: device.current_longitude, name: "your current location" } // this is kind of hacky. need a cleaner way to do this
+    const currentLocation = { device_token: device.device_token, location_id: null, latitude: device.current_latitude, longitude: device.current_longitude, name: "your current location" }
 
     const data = await getAPIData(currentLocation, MINUTELY_ONLY)
     let firstMinuteOfRain = null
@@ -223,28 +222,31 @@ async function checkForImminentRain(device) {
     }
 
     const expectedDuration = lastMinuteOfRain - firstMinuteOfRain + 1
-    const avgRainIntensity = (sumOfRainInmm / expectedDuration) 
+    const avgRainIntensity = (sumOfRainInmm / expectedDuration)
     const peakString = intensityToString(peakRainIntensity)
     const avgString = intensityToString(avgRainIntensity)
 
-    // firstMinuteOfRain check ensures string is only assigned if rain is expected. if rain is expected in 0 minutes, uses "it's raining" string and adds expected duration
     let notificationString = null
     if (firstMinuteOfRain != null && peakString == avgString) {
-        if(firstMinuteOfRain === 0) {
-            notificationString = `It's raining! Expect ${avgString} rain for about ${lastMinuteOfRain - firstMinuteOfRain + 1} minutes.`
+        if (firstMinuteOfRain === 0) {
+            notificationString = expectedDuration < 60
+                ? `It's raining! Expect ${avgString} rain for about ${expectedDuration} ${expectedDuration > 1 ? "minutes" : "minute"}.`
+                : `It's raining! Expect ${avgString} rain for at least an hour.`
         } else {
-            notificationString = `Rain is expected in ${firstMinuteOfRain} minutes. Expect ${avgString} rain.`
+            notificationString = `Rain is expected in ${firstMinuteOfRain} ${firstMinuteOfRain > 1 ? "minutes" : "minute"}. Expect ${avgString} rain.`
         }
     } else if (firstMinuteOfRain != null && peakString != avgString) {
-        if(firstMinuteOfRain === 0) {
-            notificationString = `It's raining! Expect ${avgString} to ${peakString} rain for about ${lastMinuteOfRain - firstMinuteOfRain + 1} minutes.`
+        if (firstMinuteOfRain === 0) {
+            notificationString = expectedDuration < 60
+                ? `It's raining! Expect ${avgString} to ${peakString} rain for about ${expectedDuration} ${expectedDuration > 1 ? "minutes" : "minute"}.`
+                : `It's raining! Expect ${avgString} to ${peakString} rain for at least an hour.`
         } else {
-            notificationString =  `Rain is expected in ${firstMinuteOfRain} minutes. Expect ${avgString} to ${peakString} rain.`
+            notificationString = `Rain is expected in ${firstMinuteOfRain} ${firstMinuteOfRain > 1 ? "minutes" : "minute"}. Expect ${avgString} to ${peakString} rain.`
         }
     }
 
     return notificationString
-}
+}                   
 
 function sendRainAlert(rainAlertString, deviceToken) {
     sendAPNRequest(rainAlertString, deviceToken)
