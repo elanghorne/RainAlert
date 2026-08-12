@@ -75,6 +75,8 @@ function getDeviceLocations(device) {
 }
 
 function isForecastTime(dailyForecast) {
+    if(!dailyForecast) return false
+    
     const currentDate = new Date()
     const currentUTCHour = currentDate.getUTCHours()
     const currentUTCMinute = currentDate.getUTCMinutes()
