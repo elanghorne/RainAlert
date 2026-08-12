@@ -61,8 +61,8 @@ fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
 
-*.docx
-*.pdf
+#*.docx
+#*.pdf
 
 Config.xcconfig
 
