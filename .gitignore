@@ -72,3 +72,5 @@ rainalert.db
 node_modules/
 *.env
 *.p8
+
+~$inalert-schema.docx
