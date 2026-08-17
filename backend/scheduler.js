@@ -76,7 +76,7 @@ function getDeviceLocations(device) {
 
 function isForecastTime(dailyForecast) {
     if(!dailyForecast) return false
-    
+
     const currentDate = new Date()
     const currentUTCHour = currentDate.getUTCHours()
     const currentUTCMinute = currentDate.getUTCMinutes()
@@ -89,9 +89,11 @@ function isForecastTime(dailyForecast) {
 }
 
 async function inActiveTimeWindow(device, currentTime) {
+    console.log('Checking for active time window')
     const timeWindows = await getDeviceTimeWindows(device)
     console.log(timeWindows)
     if (timeWindows.length === 0) {
+        console.log('No windows set...')
         return true
     }
 
@@ -113,10 +115,11 @@ async function inActiveTimeWindow(device, currentTime) {
         const endMinutes = windowEndUTCHour * 60 + windowEndUTCMinute
 
         if (currentMinutes >= startMinutes && currentMinutes <= endMinutes) {
+            console.log('In active window')
             return true
         }
     }
-
+    console.log('Outside of notification window')
     return false
 }
 
@@ -132,7 +135,7 @@ async function getAPIData(location, filter) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        // console.log(data);
+        console.log(data);
         return data
     } catch (error) {
         console.error('Fetch error:', error.message);
@@ -202,6 +205,7 @@ function intensityToString(intensity) {
 
 async function checkForImminentRain(device) {
     const currentLocation = { device_token: device.device_token, location_id: null, latitude: device.current_latitude, longitude: device.current_longitude, name: "your current location" }
+    console.log(`Checking for imminent rain at lat: ${device.current_latitude.toFixed(4)}, long: ${device.currentLongitude.toFixed(4)}`)
 
     const data = await getAPIData(currentLocation, MINUTELY_ONLY)
     let firstMinuteOfRain = null
@@ -251,6 +255,7 @@ async function checkForImminentRain(device) {
 }                   
 
 function sendRainAlert(rainAlertString, deviceToken) {
+    console.log('Sending rain alert request...')
     sendAPNRequest(rainAlertString, deviceToken)
 }
 
@@ -270,6 +275,7 @@ async function runScheduler() {
             await sendForecast(devices[i], dailyForecast)
         }
 
+        console.log(`Device alerts appear to be ${devices[i].alerts_on ? 'on' : 'off'}`)
         if (isTimeForRainCheck && devices[i].alerts_on && await inActiveTimeWindow(devices[i])) {
             // for now, rain checks are only for current location
 
